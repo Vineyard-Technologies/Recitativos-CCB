@@ -7,7 +7,7 @@ export default function App() {
   });
 
   if (!fontsLoaded) {
-    return null; // Render nothing until the font is loaded
+    return null;
   }
 
   return (
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   },
   header: {
     position: 'absolute',
-    top: 50, // TODO: This needs to be dynamic based on the height of the status bar.
+    top: 50,
     left: 10,
     fontSize: 36,
     fontFamily: 'CormorantGaramond-SemiBold',
