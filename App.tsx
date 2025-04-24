@@ -1,5 +1,8 @@
-import { StyleSheet, Text, View, StatusBar } from 'react-native';
-import { useFonts } from 'expo-font';
+import {StatusBar} from "react-native";
+import {useFonts} from "expo-font";
+import {ThemeProvider} from "@contexts/tema";
+import styled from "styled-components/native";
+import NavBar from "@components/NavBar";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -13,25 +16,17 @@ export default function App() {
     return null;
   }
 
-  return (
-    <View style={styles.container}>
-      <StatusBar barStyle="default" />
-      <Text style={styles.header}>Meus Recitativos</Text>
-    </View>
-  );
+	return (
+		<ThemeProvider>
+			<StatusBar barStyle="default"/>
+			<Container>
+				<NavBar title='Meus Recitativos'/>
+			</Container>
+		</ThemeProvider>
+	);
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  header: {
-    position: 'absolute',
-    top: 50,
-    left: 10,
-    fontSize: 36,
-    fontFamily: 'CormorantGaramond-SemiBold',
-  },
-});
+const Container = styled.View`
+    flex: 1;
+    background-color: ${({theme}) => theme.COLORS.NEUTRAL_LIGHT_LIGHTEST};
+`;
