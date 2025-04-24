@@ -9,17 +9,17 @@ const FONT_FAMILY = {
 
 export const HEADING = {
 	H0: css`font-family: ${FONT_FAMILY.BOLD};
-      font-size: 32px`,
+      font-size: 38px`,
 	H1: css`font-family: ${FONT_FAMILY.BOLD};
-      font-size: 24px`,
+      font-size: 30px`,
 	H2: css`font-family: ${FONT_FAMILY.BOLD};
-      font-size: 18px`,
+      font-size: 24px`,
 	H3: css`font-family: ${FONT_FAMILY.BOLD};
-      font-size: 16px`,
+      font-size: 22px`,
 	H4: css`font-family: ${FONT_FAMILY.BOLD};
-      font-size: 14px`,
+      font-size: 20px`,
 	H5: css`font-family: ${FONT_FAMILY.BOLD};
-      font-size: 12px`,
+      font-size: 18px`,
 };
 
 export const BODY = {
