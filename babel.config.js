@@ -11,10 +11,11 @@ module.exports = function(api) {
                         '@types': './src/@types',
                         '@images': './src/images',
                         '@components': './src/components',
+                        '@contexts': './src/contexts',
                         '@routes': './src/routes',
                         '@screens': './src/screens',
                         '@storage': './src/storage',
-                        '@theme': './src/theme',
+                        '@styles': './src/styles',
                         '@utils': './src/utils',
                     }
                 }

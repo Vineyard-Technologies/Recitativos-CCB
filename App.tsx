@@ -1,62 +1,34 @@
-import { StyleSheet, Text, View, StatusBar, TouchableOpacity, Image } from 'react-native';
-import { useFonts } from 'expo-font';
+import {StatusBar} from "react-native";
+import {useFonts} from "expo-font";
+import {ThemeProvider} from "@contexts/tema";
+import styled from "styled-components/native";
+import NavBar from "@components/NavBar";
 
 export default function App() {
   console.log("hello world");
   
   const [fontsLoaded] = useFonts({
-    'CormorantGaramond-SemiBold': require('./assets/fonts/CormorantGaramond-SemiBold.ttf'),
+    "CormorantGaramond-Bold": require("./assets/fonts/CormorantGaramond-Bold.ttf"),
+    "CormorantGaramond-SemiBold": require("./assets/fonts/CormorantGaramond-SemiBold.ttf"),
+    "CormorantGaramond-Regular": require("./assets/fonts/CormorantGaramond-Regular.ttf"),
+    "CormorantGaramond-Medium": require("./assets/fonts/CormorantGaramond-Medium.ttf"),
   });
 
   if (!fontsLoaded) {
     return null;
   }
 
-  return (
-    <View style={styles.container}>
-      <StatusBar barStyle="default" />
-      <Text style={styles.header}>Meus Recitativos</Text>
-      <TouchableOpacity
-        style={styles.addButton}
-        onPress={() => {}}
-        activeOpacity={0.7}
-      >
-        <Image 
-          source={require('./src/components/plus-solid.png')} 
-          style={[styles.addIcon, { tintColor: '#00FF00', alignSelf: 'center' }]}
-        />
-      </TouchableOpacity>
-    </View>
-  );
+	return (
+		<ThemeProvider>
+			<StatusBar barStyle="default"/>
+			<Container>
+				<NavBar title='Meus Recitativos'/>
+			</Container>
+		</ThemeProvider>
+	);
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#FFFFFF',
-  },
-  header: {
-    position: 'absolute',
-    top: 50,
-    left: 10,
-    fontSize: 36,
-    fontFamily: 'CormorantGaramond-SemiBold',
-  },
-  addButton: {
-    position: 'absolute',
-    top: '90%',
-    alignSelf: 'center',
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    backgroundColor: '#000000',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  addIcon: {
-    width: 24,
-    height: 24,
-  },
-});
+const Container = styled.View`
+    flex: 1;
+    background-color: ${({theme}) => theme.COLORS.NEUTRAL_LIGHT_LIGHTEST};
+`;

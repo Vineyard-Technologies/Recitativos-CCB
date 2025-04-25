@@ -13,6 +13,9 @@
       "@components/*": [
         "./src/components/*"
       ],
+      "@contexts/*": [
+        "./src/contexts/*"
+      ],
       "@routes/*": [
         "./src/routes/*"
       ],
@@ -22,8 +25,8 @@
       "@storage/*": [
         "./src/storage/*"
       ],
-      "@theme/*": [
-        "./src/theme/*"
+      "@styles/*": [
+        "./src/styles/*"
       ],
       "@utils/*": [
         "./src/utils/*"
