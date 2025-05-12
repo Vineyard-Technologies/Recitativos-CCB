@@ -23,28 +23,28 @@ export const HEADING = {
 };
 
 export const BODY = {
-	XL: css`font-family: ${FONT_FAMILY.REGULAR};
+	XL: css`font-family: ${FONT_FAMILY.SEMI_BOLD};
+      font-size: 24px`,
+	L: css`font-family: ${FONT_FAMILY.SEMI_BOLD};
+      font-size: 22px`,
+	M: css`font-family: ${FONT_FAMILY.SEMI_BOLD};
+      font-size: 20px`,
+	S: css`font-family: ${FONT_FAMILY.SEMI_BOLD};
       font-size: 18px`,
-	L: css`font-family: ${FONT_FAMILY.REGULAR};
+	XS: css`font-family: ${FONT_FAMILY.REGULAR};
       font-size: 16px`,
-	M: css`font-family: ${FONT_FAMILY.REGULAR};
-      font-size: 14px`,
-	S: css`font-family: ${FONT_FAMILY.REGULAR};
-      font-size: 12px`,
-	XS: css`font-family: ${FONT_FAMILY.MEDIUM};
-      font-size: 10px`,
 };
 
 export const ACTION = {
 	L: css`font-family: ${FONT_FAMILY.SEMI_BOLD};
-      font-size: 14px`,
+      font-size: 20px`,
 	M: css`font-family: ${FONT_FAMILY.SEMI_BOLD};
-      font-size: 12px`,
+      font-size: 18px`,
 	S: css`font-family: ${FONT_FAMILY.SEMI_BOLD};
-      font-size: 10px`,
+      font-size: 16px`,
 };
 
 export const CAPTION = {
 	M: css`font-family: ${FONT_FAMILY.SEMI_BOLD};
-      font-size: 10px`,
+      font-size: 16px`,
 };
