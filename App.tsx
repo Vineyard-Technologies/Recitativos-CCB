@@ -32,12 +32,6 @@ export default function App() {
       leftIcon: <Info />,
       hasRightIcon: true,
     },
-    {
-      type: "Icon",
-      title: "Sair",
-      leftIcon: <SignOut />,
-      danger: true,
-    },
   ] as ListItemProps[];
 
   if (!fontsLoaded) {
@@ -59,7 +53,7 @@ export default function App() {
   );
 }
 
-const Container = styled.View`
+const Container = styled.SafeAreaView`
     flex: 1;
     background-color: ${({theme}) => theme.COLORS.NEUTRAL_LIGHT_LIGHTEST};
 `;
