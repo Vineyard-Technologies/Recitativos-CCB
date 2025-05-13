@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import { ScrollView, StatusBar } from "react-native";
 import { useFonts } from "expo-font";
 import { ThemeProvider } from "@contexts/tema";
@@ -6,6 +7,7 @@ import NavBar from "@components/NavBar";
 import ListItemComponent, { ListItemProps } from "@components/ListItem";
 import { Bell, Info, ShieldCheck, Gear, Plus } from "phosphor-react-native";
 import Button from "./components/Button";
+import EscolhaLivroScreen from "./src/screens/EscolhaLivroScreen";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -22,6 +24,7 @@ export default function App() {
       description: "No princípio, Deus criou os céus e a terra.",
       hasRightIcon: true,
     },
+    // TODO: Adicione esses itens às configurações
     // {
     //   type: "Icon",
     //   title: "Privacidade e segurança",
@@ -36,6 +39,8 @@ export default function App() {
     // },
   ] as ListItemProps[];
 
+  const [screen, setScreen] = useState<'main' | 'escolhaLivro'>("main");
+
   if (!fontsLoaded) {
     return null;
   }
@@ -44,24 +49,33 @@ export default function App() {
     <ThemeProvider>
       <StatusBar barStyle="default" />
       <Container>
-        <NavBar title="Meus Recitativos" />
-        <ScrollView>
-          {list.map((item, index) => (
-            <ListItemComponent key={index} {...item} />
-          ))}
-        </ScrollView>
-        <Button
-          label="Configurações"
-          icon={<Gear color="#fff" size={20} />}
-          position="left"
-          onPress={() => {}}
-        />
-        <Button
-          label="Adicionar Verso"
-          icon={<Plus color="#fff" size={20} />}
-          position="right"
-          onPress={() => {}}
-        />
+        {screen === "main" ? (
+          <>
+            <NavBar title="Meus Recitativos" />
+            <ScrollView>
+              {list.map((item, index) => (
+                <ListItemComponent key={index} {...item} />
+              ))}
+            </ScrollView>
+            <Button
+              label="Configurações"
+              icon={<Gear color="#fff" size={20} />}
+              position="left"
+              onPress={() => {}}
+            />
+            <Button
+              label="Adicionar Verso"
+              icon={<Plus color="#fff" size={20} />}
+              position="right"
+              onPress={() => setScreen('escolhaLivro')}
+            />
+          </>
+        ) : (
+          <EscolhaLivroScreen
+            onBack={() => setScreen('main')}
+            onNext={() => {}}
+          />
+        )}
       </Container>
     </ThemeProvider>
   );
