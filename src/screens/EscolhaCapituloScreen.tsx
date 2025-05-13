@@ -7,17 +7,16 @@ import ARC from "../../assets/ARC.json";
 
 const books = ARC.map((book: { name: string }) => book.name);
 
-const EscolhaCapituloScreen = ({ bookName, onBack }: { bookName: string; onBack: () => void }) => {
-
+const EscolhaCapituloScreen = ({ bookName, onBack, onChapterPress }: { bookName: string; onBack: () => void; onChapterPress: (chapterIndex: number) => void }) => {
 
   const book = ARC.find((book: { name: string }) => book.name === bookName);
   const chaptersArray = book ? book.chapters : [];
 
-const chapters = [];
-for (let idx = 0; idx < chaptersArray.length; idx++) {
+  const chapters = [];
+  for (let idx = 0; idx < chaptersArray.length; idx++) {
     const chapterTitles = chaptersArray[idx].join(" ");
-    chapters.push("Capítulo " + (idx + 1) + "\n" + chapterTitles);
-}
+    chapters.push(bookName + " " + (idx + 1) + "\n" + chapterTitles);
+  }
 
   return (
     <Container>
@@ -25,8 +24,8 @@ for (let idx = 0; idx < chaptersArray.length; idx++) {
       <BookListContainer>
         <ListBorder />
         <BookList>
-          {chapters.map((chapter) => (
-            <BookItem key={chapter}>
+          {chapters.map((chapter, idx) => (
+            <BookItem key={chapter} onPress={() => onChapterPress(idx)}>
               <BookText numberOfLines={2} ellipsizeMode="tail">{chapter}</BookText>
             </BookItem>
           ))}
