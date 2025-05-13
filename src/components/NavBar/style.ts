@@ -11,7 +11,7 @@ export const Container = styled.View`
 
 export const Title = styled.Text`
     ${({theme}) => css`
-        ${theme.HEADING.H3};
+        ${theme.HEADING.H1};
         color: ${theme.COLORS.NEUTRAL_DARK_DARKEST}
     `}
 `;
