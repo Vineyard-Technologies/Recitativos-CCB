@@ -2,22 +2,32 @@ import React from "react";
 import styled from "styled-components/native";
 import Button from "../../components/Button";
 import NavBar from "../components/NavBar";
-import ARC from "../../assets/ARC.json";
 import { ArrowFatLeft } from "phosphor-react-native";
-
+import ARC from "../../assets/ARC.json";
 
 const books = ARC.map((book: { name: string }) => book.name);
 
-const EscolhaLivroScreen = ({ onBack, onBookPress }: { onBack: () => void; onBookPress: (bookName: string) => void }) => {
+const EscolhaCapituloScreen = ({ bookName, onBack }: { bookName: string; onBack: () => void }) => {
+
+
+  const book = ARC.find((book: { name: string }) => book.name === bookName);
+  const chaptersArray = book ? book.chapters : [];
+
+const chapters = [];
+for (let idx = 0; idx < chaptersArray.length; idx++) {
+    const chapterTitles = chaptersArray[idx].join(" ");
+    chapters.push("Capítulo " + (idx + 1) + "\n" + chapterTitles);
+}
+
   return (
     <Container>
-      <NavBar title="Escolha um livro" />
+      <NavBar title={`Escolha um capítulo`} />
       <BookListContainer>
         <ListBorder />
         <BookList>
-          {books.map((book) => (
-            <BookItem key={book} onPress={() => onBookPress(book)}>
-              <BookText>{book}</BookText>
+          {chapters.map((chapter) => (
+            <BookItem key={chapter}>
+              <BookText numberOfLines={2} ellipsizeMode="tail">{chapter}</BookText>
             </BookItem>
           ))}
         </BookList>
@@ -57,6 +67,7 @@ const BookItem = styled.TouchableOpacity`
 const BookText = styled.Text`
   ${({ theme }) => theme.HEADING.H2};
   color: ${({ theme }) => theme.COLORS.NEUTRAL_DARK_DARKEST};
+  text-align: center;
 `;
 
 const ButtonRow = styled.View`
@@ -74,4 +85,4 @@ const ListBorder = styled.View`
   width: 100%;
 `;
 
-export default EscolhaLivroScreen;
+export default EscolhaCapituloScreen;

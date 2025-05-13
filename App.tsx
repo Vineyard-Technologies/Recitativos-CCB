@@ -8,6 +8,7 @@ import ListItemComponent, { ListItemProps } from "@components/ListItem";
 import { Bell, Info, ShieldCheck, Gear, Plus } from "phosphor-react-native";
 import Button from "./components/Button";
 import EscolhaLivroScreen from "./src/screens/EscolhaLivroScreen";
+import EscolhaCapituloScreen from "./src/screens/EscolhaCapituloScreen";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -39,7 +40,8 @@ export default function App() {
     // },
   ] as ListItemProps[];
 
-  const [screen, setScreen] = useState<'main' | 'escolhaLivro'>("main");
+  const [screen, setScreen] = useState<'main' | 'escolhaLivro' | 'escolhaCapitulo'>("main");
+  const [selectedBook, setSelectedBook] = useState<string | null>(null);
 
   if (!fontsLoaded) {
     return null;
@@ -70,12 +72,20 @@ export default function App() {
               onPress={() => setScreen('escolhaLivro')}
             />
           </>
-        ) : (
+        ) : screen === "escolhaLivro" ? (
           <EscolhaLivroScreen
             onBack={() => setScreen('main')}
-            onNext={() => {}}
+            onBookPress={(bookName: string) => {
+              setSelectedBook(bookName);
+              setScreen('escolhaCapitulo');
+            }}
           />
-        )}
+        ) : screen === "escolhaCapitulo" && selectedBook ? (
+          <EscolhaCapituloScreen
+            bookName={selectedBook}
+            onBack={() => setScreen('escolhaLivro')}
+          />
+        ) : null}
       </Container>
     </ThemeProvider>
   );

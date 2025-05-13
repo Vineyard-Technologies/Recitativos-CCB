@@ -12,7 +12,9 @@ export const Container = styled.View`
 export const Title = styled.Text`
     ${({theme}) => css`
         ${theme.HEADING.H1};
-        color: ${theme.COLORS.NEUTRAL_DARK_DARKEST}
+        color: ${theme.COLORS.NEUTRAL_DARK_DARKEST};
+        line-height: 24px;
+        padding-top: 4px;
     `}
 `;
 
