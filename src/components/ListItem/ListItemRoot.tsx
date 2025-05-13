@@ -24,6 +24,6 @@ const Container = styled.View<ContainerProps>`
     padding: 16px;
     gap: 16px;
     ${({theme, selected}) => css`
-        background-color: ${selected ? theme.COLORS.HIGHLIGHT_LIGHTEST_INVERSE : theme.COLORS.NEUTRAL_LIGHT_LIGHTEST};
+        background-color: ${selected ? theme.COLORS.HIGHLIGHT_LIGHT_INVERSE : theme.COLORS.NEUTRAL_LIGHT_DARK};
     `}
 `;

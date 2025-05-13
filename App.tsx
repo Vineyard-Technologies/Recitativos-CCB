@@ -4,7 +4,8 @@ import { ThemeProvider } from "@contexts/tema";
 import styled from "styled-components/native";
 import NavBar from "@components/NavBar";
 import ListItemComponent, { ListItemProps } from "@components/ListItem";
-import { Bell, Info, ShieldCheck, SignOut } from "phosphor-react-native";
+import { Bell, Info, ShieldCheck, Gear, Plus } from "phosphor-react-native";
+import Button from "./components/Button";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -19,19 +20,20 @@ export default function App() {
       type: "Icon",
       title: "Genesis 1:1",
       description: "No princípio, Deus criou os céus e a terra.",
-    },
-    {
-      type: "Icon",
-      title: "Privacidade e segurança",
-      leftIcon: <ShieldCheck />,
       hasRightIcon: true,
     },
-    {
-      type: "Icon",
-      title: "Sobre este app",
-      leftIcon: <Info />,
-      hasRightIcon: true,
-    },
+    // {
+    //   type: "Icon",
+    //   title: "Privacidade e segurança",
+    //   leftIcon: <ShieldCheck />,
+    //   hasRightIcon: true,
+    // },
+    // {
+    //   type: "Icon",
+    //   title: "Sobre este app",
+    //   leftIcon: <Info />,
+    //   hasRightIcon: true,
+    // },
   ] as ListItemProps[];
 
   if (!fontsLoaded) {
@@ -48,6 +50,18 @@ export default function App() {
             <ListItemComponent key={index} {...item} />
           ))}
         </ScrollView>
+        <Button
+          label="Configurações"
+          icon={<Gear color="#fff" size={20} />}
+          position="left"
+          onPress={() => {}}
+        />
+        <Button
+          label="Adicionar Verso"
+          icon={<Plus color="#fff" size={20} />}
+          position="right"
+          onPress={() => {}}
+        />
       </Container>
     </ThemeProvider>
   );
@@ -55,5 +69,5 @@ export default function App() {
 
 const Container = styled.SafeAreaView`
     flex: 1;
-    background-color: ${({theme}) => theme.COLORS.NEUTRAL_LIGHT_LIGHTEST};
+    background-color: ${({theme}) => theme.COLORS.NEUTRAL_LIGHT_MEDIUM};
 `;
