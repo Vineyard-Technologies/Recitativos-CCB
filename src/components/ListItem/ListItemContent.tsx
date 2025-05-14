@@ -31,11 +31,6 @@ const Title = styled.Text<Partial<ListItemContentProps>>`
 const Description = styled.Text<Partial<ListItemContentProps>>`
     ${({theme, danger}) => css`
         ${theme.BODY.S};
-        color: ${danger
-          ? theme.COLORS.ERROR_DARK
-          : theme.COLORS.WHITE // dark mode
-            ? theme.COLORS.NEUTRAL_DARK_DARKEST // black in light mode
-            : theme.COLORS.NEUTRAL_DARK_LIGHT // fallback
-        };
+        color: ${danger ? theme.COLORS.ERROR_DARK : theme.COLORS.NEUTRAL_DARK_DARKEST};
     `}
 `;

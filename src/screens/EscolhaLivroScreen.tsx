@@ -1,10 +1,10 @@
 import React from "react";
 import styled from "styled-components/native";
+import { FlatList } from "react-native";
 import Button from "../../components/Button";
 import NavBar from "../components/NavBar";
 import ARC from "../../assets/ARC.json";
 import { ArrowFatLeft } from "phosphor-react-native";
-
 
 const books = ARC.map((book: { name: string }) => book.name);
 
@@ -14,13 +14,16 @@ const EscolhaLivroScreen = ({ onBack, onBookPress }: { onBack: () => void; onBoo
       <NavBar title="Escolha um livro" />
       <BookListContainer>
         <ListBorder />
-        <BookList>
-          {books.map((book) => (
-            <BookItem key={book} onPress={() => onBookPress(book)}>
-              <BookText>{book}</BookText>
+        <FlatList
+          data={books}
+          keyExtractor={(item) => item}
+          renderItem={({ item }) => (
+            <BookItem onPress={() => onBookPress(item)}>
+              <BookText>{item}</BookText>
             </BookItem>
-          ))}
-        </BookList>
+          )}
+          contentContainerStyle={{ flexGrow: 0 }}
+        />
         <ListBorder />
       </BookListContainer>
       <ButtonRow>
@@ -39,10 +42,6 @@ const BookListContainer = styled.View`
   flex: 1;
   margin-top: 16px;
   margin-bottom: 96px;
-`;
-
-const BookList = styled.ScrollView`
-  flex-grow: 0;
 `;
 
 const BookItem = styled.TouchableOpacity`
