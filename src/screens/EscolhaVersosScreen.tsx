@@ -4,6 +4,7 @@ import Button from "../../components/Button";
 import NavBar from "../components/NavBar";
 import { ArrowFatLeft, ArrowFatRight, Check, Checks } from "phosphor-react-native";
 import ARC from "../../assets/ARC.json";
+import { FlatList } from "react-native";
 
 const EscolhaVersosScreen = ({ bookName, chapterIndex, onBack }: { bookName: string; chapterIndex: number; onBack: () => void }) => {
   const book = ARC.find((book: { name: string }) => book.name === bookName);
@@ -36,8 +37,10 @@ const EscolhaVersosScreen = ({ bookName, chapterIndex, onBack }: { bookName: str
       <NavBar title={`Escolha um verso`} />
       <BookListContainer>
         <ListBorder />
-        <BookList>
-          {chapterVerses.map((verse: string, idx: number) => {
+        <FlatList
+          data={chapterVerses}
+          keyExtractor={(_, idx) => `${bookName}-${chapterIndex}-${idx}`}
+          renderItem={({ item: verse, index: idx }) => {
             const reference = `${bookName} ${chapterIndex + 1}:${idx + 1}`;
             return (
               <BookItem
@@ -57,8 +60,9 @@ const EscolhaVersosScreen = ({ bookName, chapterIndex, onBack }: { bookName: str
                 </BookText>
               </BookItem>
             );
-          })}
-        </BookList>
+          }}
+          contentContainerStyle={{ flexGrow: 0 }}
+        />
         <ListBorder />
       </BookListContainer>
       <ButtonRow>
@@ -85,10 +89,6 @@ const BookListContainer = styled.View`
   flex: 1;
   margin-top: 16px;
   margin-bottom: 96px;
-`;
-
-const BookList = styled.ScrollView`
-  flex-grow: 0;
 `;
 
 const BookItem = styled.TouchableOpacity<{ checked?: boolean }>`

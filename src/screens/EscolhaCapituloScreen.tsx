@@ -4,6 +4,7 @@ import Button from "../../components/Button";
 import NavBar from "../components/NavBar";
 import { ArrowFatLeft } from "phosphor-react-native";
 import ARC from "../../assets/ARC.json";
+import { FlatList } from "react-native";
 
 const books = ARC.map((book: { name: string }) => book.name);
 
@@ -14,7 +15,16 @@ const EscolhaCapituloScreen = ({ bookName, onBack, onChapterPress }: { bookName:
 
   const chapters = [];
   for (let idx = 0; idx < chaptersArray.length; idx++) {
-    const chapterTitles = chaptersArray[idx].join(" ");
+    let chapterTitles = "";
+    let entryIdx = 0;
+    while (
+      entryIdx < chaptersArray[idx].length &&
+      chapterTitles.length < 50
+    ) {
+      if (chapterTitles.length > 0) chapterTitles += " ";
+      chapterTitles += chaptersArray[idx][entryIdx];
+      entryIdx++;
+    }
     chapters.push(bookName + " " + (idx + 1) + "\n" + chapterTitles);
   }
 
@@ -23,13 +33,16 @@ const EscolhaCapituloScreen = ({ bookName, onBack, onChapterPress }: { bookName:
       <NavBar title={`Escolha um capítulo`} />
       <BookListContainer>
         <ListBorder />
-        <BookList>
-          {chapters.map((chapter, idx) => (
-            <BookItem key={chapter} onPress={() => onChapterPress(idx)}>
-              <BookText numberOfLines={2} ellipsizeMode="tail">{chapter}</BookText>
+        <FlatList
+          data={chapters}
+          keyExtractor={(item, idx) => `${bookName}-${idx}`}
+          renderItem={({ item, index }) => (
+            <BookItem key={item} onPress={() => onChapterPress(index)}>
+              <BookText numberOfLines={2} ellipsizeMode="tail">{item}</BookText>
             </BookItem>
-          ))}
-        </BookList>
+          )}
+          contentContainerStyle={{ flexGrow: 0 }}
+        />
         <ListBorder />
       </BookListContainer>
       <ButtonRow>
@@ -48,10 +61,6 @@ const BookListContainer = styled.View`
   flex: 1;
   margin-top: 16px;
   margin-bottom: 96px;
-`;
-
-const BookList = styled.ScrollView`
-  flex-grow: 0;
 `;
 
 const BookItem = styled.TouchableOpacity`

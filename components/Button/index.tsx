@@ -28,7 +28,7 @@ const ButtonContainer = styled.TouchableOpacity<{ position?: "left" | "right" }>
 `;
 
 const ButtonLabel = styled.Text`
-    ${ACTION.M};
+    ${({ theme }) => theme.ACTION.M};
     color: #fff;
     margin-left: 8px;
 `;
