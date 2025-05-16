@@ -3,7 +3,7 @@ import { ScrollView } from "react-native";
 import { useTheme } from 'styled-components/native';
 import NavBar from "@components/NavBar";
 import ListItemComponent, { ListItemProps } from "@components/ListItem";
-import Button from "../../components/Button";
+import Button from "../components/Button";
 import { Gear, Plus } from "phosphor-react-native";
 
 export default function MainScreen({ navigation }: any) {

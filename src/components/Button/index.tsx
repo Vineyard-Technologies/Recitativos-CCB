@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components/native";
 import { TouchableOpacityProps } from "react-native";
-import { ACTION } from "../../src/styles/typography";
+import { ACTION } from "../../styles/typography";
 
 interface ButtonProps extends TouchableOpacityProps {
   icon?: React.ReactNode;
