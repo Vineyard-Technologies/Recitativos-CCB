@@ -1,8 +1,14 @@
 import React from "react";
 import styled from "styled-components/native";
 import { TouchableOpacityProps } from "react-native";
-import { ACTION } from "../../styles/typography";
 
+/**
+ * Propriedades para o componente Button.
+ * @typedef {Object} ButtonProps
+ * @property {React.ReactNode} [icon] - Ícone opcional exibido no botão.
+ * @property {string} label - Texto do botão.
+ * @property {"left"|"right"} [position] - Posição do botão na tela.
+ */
 interface ButtonProps extends TouchableOpacityProps {
   icon?: React.ReactNode;
   label: string;
@@ -33,6 +39,11 @@ const ButtonLabel = styled.Text`
     margin-left: 8px;
 `;
 
+/**
+ * Componente de botão customizado.
+ * @param {ButtonProps} props - Propriedades do botão.
+ * @returns {JSX.Element} Elemento React do botão.
+ */
 const Button: React.FC<ButtonProps> = ({ icon, label, position, ...props }) => (
   <ButtonContainer activeOpacity={0.8} position={position} {...props}>
     {icon}
