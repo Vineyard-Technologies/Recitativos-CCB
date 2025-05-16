@@ -5,8 +5,13 @@ import NavBar from "../components/NavBar";
 import { ArrowFatLeft, ArrowFatRight, Check, Checks } from "phosphor-react-native";
 import ARC from "../../assets/ARC.json";
 import { FlatList } from "react-native";
+import { useNavigation, useRoute } from '@react-navigation/native';
 
-const EscolhaVersosScreen = ({ bookName, chapterIndex, onBack }: { bookName: string; chapterIndex: number; onBack: () => void }) => {
+const EscolhaVersosScreen = () => {
+  const navigation = useNavigation();
+  const route = useRoute();
+  const { bookName, chapterIndex } = (route as any).params || {};
+
   const book = ARC.find((book: { name: string }) => book.name === bookName);
   const chapterVerses = book && book.chapters[chapterIndex] ? book.chapters[chapterIndex] : [];
   const [checked, setChecked] = React.useState<Set<number>>(new Set());
@@ -31,6 +36,8 @@ const EscolhaVersosScreen = ({ bookName, chapterIndex, onBack }: { bookName: str
       return newSet;
     });
   };
+
+  const handleBack = () => navigation.goBack();
 
   return (
     <Container>
@@ -67,7 +74,7 @@ const EscolhaVersosScreen = ({ bookName, chapterIndex, onBack }: { bookName: str
       </BookListContainer>
       <ButtonRow>
         <BottomButton>
-          <Button label="Voltar" onPress={onBack} icon={<ArrowFatLeft size={24} color="#fff" />} />
+          <Button label="Voltar" onPress={handleBack} icon={<ArrowFatLeft size={24} color="#fff" />} />
         </BottomButton>
         <BottomButton>
           <Button label="Todos" onPress={handleSelectAll} icon={<Checks size={24} color="#fff" />} />
