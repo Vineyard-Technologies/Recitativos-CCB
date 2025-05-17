@@ -53,7 +53,11 @@ const EscolhaVersosScreen = () => {
 
   return (
     <Container>
-      <NavBar title={`Escolha um verso`} />
+      <NavBar 
+        title={`Escolha um verso`} 
+        leftIcon={<ArrowFatLeft size={24} color="#fff" />} 
+        leftOnPress={handleBack}
+      />
       <BookListContainer>
         <ListBorder />
         <FlatList
@@ -85,9 +89,6 @@ const EscolhaVersosScreen = () => {
         <ListBorder />
       </BookListContainer>
       <ButtonRow>
-        <BottomButton>
-          <Button label="Voltar" onPress={handleBack} icon={<ArrowFatLeft size={24} color="#fff" />} />
-        </BottomButton>
         <BottomButton>
           <Button label="Todos" onPress={handleSelectAll} icon={<Checks size={24} color="#fff" />} />
         </BottomButton>

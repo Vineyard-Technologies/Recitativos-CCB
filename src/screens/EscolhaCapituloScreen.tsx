@@ -35,7 +35,11 @@ const EscolhaCapituloScreen = () => {
 
   return (
     <Container>
-      <NavBar title={`Escolha um capítulo`} />
+      <NavBar 
+        title={`Escolha um capítulo`} 
+        leftIcon={<ArrowFatLeft size={24} color="#fff" />} 
+        leftOnPress={handleBack}
+      />
       <BookListContainer>
         <ListBorder />
         <FlatList
@@ -48,11 +52,7 @@ const EscolhaCapituloScreen = () => {
           )}
           contentContainerStyle={{ flexGrow: 0 }}
         />
-        <ListBorder />
       </BookListContainer>
-      <ButtonRow>
-        <Button label="Voltar" onPress={handleBack} icon={<ArrowFatLeft size={24} color="#fff" />} />
-      </ButtonRow>
     </Container>
   );
 };
@@ -65,7 +65,6 @@ const Container = styled.SafeAreaView`
 const BookListContainer = styled.View`
   flex: 1;
   margin-top: 16px;
-  margin-bottom: 96px;
 `;
 
 const BookItem = styled.TouchableOpacity`
@@ -81,15 +80,6 @@ const BookText = styled.Text`
   ${({ theme }) => theme.HEADING.H2};
   color: ${({ theme }) => theme.COLORS.NEUTRAL_DARK_DARKEST};
   text-align: center;
-`;
-
-const ButtonRow = styled.View`
-  flex-direction: row;
-  justify-content: center;
-  position: absolute;
-  bottom: 0px;
-  left: 24px;
-  right: 24px;
 `;
 
 const ListBorder = styled.View`
