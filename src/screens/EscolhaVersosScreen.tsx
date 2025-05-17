@@ -27,13 +27,25 @@ const EscolhaVersosScreen = () => {
 
   const handlePress = (idx: number) => {
     setChecked(prev => {
-      const newSet = new Set(prev);
-      if (newSet.has(idx)) {
-        newSet.delete(idx);
+      const arr = Array.from(prev).sort((a, b) => a - b);
+      if (!prev.has(idx)) {
+        // Selecting: select all between min and idx (inclusive)
+        const min = arr.length > 0 ? arr[0] : idx;
+        const max = idx;
+        const [start, end] = [Math.min(min, max), Math.max(min, max)];
+        const newSet = new Set<number>();
+        for (let i = start; i <= end; i++) {
+          newSet.add(i);
+        }
+        return newSet;
       } else {
-        newSet.add(idx);
+        // Deselecting: clear all after and including idx
+        const newSet = new Set<number>();
+        for (let i of arr) {
+          if (i < idx) newSet.add(i);
+        }
+        return newSet;
       }
-      return newSet;
     });
   };
 
