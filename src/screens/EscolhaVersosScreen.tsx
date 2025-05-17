@@ -113,7 +113,7 @@ const EscolhaVersosScreen = () => {
       </BookListContainer>
       <ButtonRow>
         <BottomButton>
-          <Button label="Todos" onPress={handleSelectAll} icon={<Checks size={24} color="#fff" />} />
+          <Button label="Selecionar Todos" onPress={handleSelectAll} icon={<Checks size={24} color="#fff" />} />
         </BottomButton>
         <BottomButton>
           <Button label="Decorar" onPress={handleDecorar} icon={<ArrowFatRight size={24} color="#fff" />} />
