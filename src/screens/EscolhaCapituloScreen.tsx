@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components/native";
-import Button from "../components/Button";
-import NavBar from "../components/NavBar";
+import Button from "@components/Button";
+import NavBar from "@components/NavBar";
 import { ArrowFatLeft } from "phosphor-react-native";
-import ARC from "../../assets/ARC.json";
+import ARC from "@assets/ARC.json";
 import { FlatList } from "react-native";
 import { useNavigation, useRoute } from '@react-navigation/native';
 

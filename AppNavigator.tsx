@@ -1,10 +1,10 @@
 import React from "react";
 import { createStackNavigator, CardStyleInterpolators } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
-import EscolhaLivroScreen from "./src/screens/EscolhaLivroScreen";
-import EscolhaCapituloScreen from "./src/screens/EscolhaCapituloScreen";
-import EscolhaVersosScreen from "./src/screens/EscolhaVersosScreen";
-import MainScreen from "./src/screens/MainScreen";
+import EscolhaLivroScreen from "@screens/EscolhaLivroScreen";
+import EscolhaCapituloScreen from "@screens/EscolhaCapituloScreen";
+import EscolhaVersosScreen from "@screens/EscolhaVersosScreen";
+import MainScreen from "@screens/MainScreen";
 
 const Stack = createStackNavigator();
 
