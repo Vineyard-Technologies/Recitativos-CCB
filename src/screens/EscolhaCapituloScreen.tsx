@@ -5,12 +5,12 @@ import NavBar from "@components/NavBar";
 import { ArrowFatLeft } from "phosphor-react-native";
 import ARC from "@assets/ARC.json";
 import { FlatList } from "react-native";
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute, RouteProp, NavigationProp } from '@react-navigation/native';
 
 const EscolhaCapituloScreen = () => {
-  const navigation = useNavigation();
-  const route = useRoute();
-  const { bookName } = (route as any).params || {};
+  const route = useRoute<RouteProp<Record<string, { bookName?: string }>, string>>();
+  const { bookName } = route.params || {};
+  const navigation = useNavigation<NavigationProp<Record<string, object | undefined>>>();
 
   const book = ARC.find((book: { name: string }) => book.name === bookName);
   const chaptersArray = book ? book.chapters : [];
@@ -31,7 +31,7 @@ const EscolhaCapituloScreen = () => {
   }
 
   const handleBack = () => navigation.goBack();
-  const handleChapterPress = (chapterIndex: number) => (navigation as any).navigate('EscolhaVersos', { bookName, chapterIndex });
+  const handleChapterPress = (chapterIndex: number) => navigation.navigate('EscolhaVersos', { bookName, chapterIndex });
 
   return (
     <Container>

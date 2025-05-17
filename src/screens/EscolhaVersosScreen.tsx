@@ -5,15 +5,15 @@ import NavBar from "@components/NavBar";
 import { ArrowFatLeft, ArrowFatRight, Check, Checks } from "phosphor-react-native";
 import ARC from "@assets/ARC.json";
 import { FlatList } from "react-native";
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 
 const EscolhaVersosScreen = () => {
   const navigation = useNavigation();
-  const route = useRoute();
-  const { bookName, chapterIndex } = (route as any).params || {};
+  const route = useRoute<RouteProp<Record<string, { bookName?: string; chapterIndex?: number }>, string>>();
+  const { bookName, chapterIndex } = route.params || {};
 
   const book = ARC.find((book: { name: string }) => book.name === bookName);
-  const chapterVerses = book && book.chapters[chapterIndex] ? book.chapters[chapterIndex] : [];
+  const chapterVerses = (book && chapterIndex !== undefined && book.chapters[chapterIndex]) ? book.chapters[chapterIndex] : [];
   const [checked, setChecked] = React.useState<Set<number>>(new Set());
 
   const allSelected = checked.size === chapterVerses.length && chapterVerses.length > 0;
@@ -48,7 +48,7 @@ const EscolhaVersosScreen = () => {
           data={chapterVerses}
           keyExtractor={(_, idx) => `${bookName}-${chapterIndex}-${idx}`}
           renderItem={({ item: verse, index: idx }) => {
-            const reference = `${bookName} ${chapterIndex + 1}:${idx + 1}`;
+            const reference = `${bookName ?? ''} ${chapterIndex !== undefined ? chapterIndex + 1 : ''}:${idx + 1}`;
             return (
               <BookItem
                 key={idx}

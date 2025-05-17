@@ -20,9 +20,9 @@ export default function AppNavigator({ initialParams }: { initialParams?: any })
         }}
       >
         <Stack.Screen name="Main" component={MainScreen} />
-        <Stack.Screen name="EscolhaLivro" component={EscolhaLivroScreen as any} />
-        <Stack.Screen name="EscolhaCapitulo" component={EscolhaCapituloScreen as any} />
-        <Stack.Screen name="EscolhaVersos" component={EscolhaVersosScreen as any} />
+        <Stack.Screen name="EscolhaLivro" component={EscolhaLivroScreen} />
+        <Stack.Screen name="EscolhaCapitulo" component={EscolhaCapituloScreen} />
+        <Stack.Screen name="EscolhaVersos" component={EscolhaVersosScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

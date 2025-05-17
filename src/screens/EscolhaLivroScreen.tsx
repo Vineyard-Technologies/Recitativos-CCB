@@ -5,14 +5,14 @@ import Button from "@components/Button";
 import NavBar from "@components/NavBar";
 import ARC from "@assets/ARC.json";
 import { ArrowFatLeft } from "phosphor-react-native";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, NavigationProp } from '@react-navigation/native';
 
 const books = ARC.map((book: { name: string }) => book.name);
 
 const EscolhaLivroScreen = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp<Record<string, object | undefined>>>();
   const handleBack = () => navigation.goBack();
-  const handleBookPress = (bookName: string) => (navigation as any).navigate('EscolhaCapitulo', { bookName });
+  const handleBookPress = (bookName: string) => navigation.navigate('EscolhaCapitulo', { bookName });
   return (
     <Container>
       <NavBar title="Escolha um livro" />

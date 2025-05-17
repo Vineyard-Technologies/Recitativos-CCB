@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView } from "react-native";
+import { FlatList, View } from "react-native";
 import { useTheme } from 'styled-components/native';
 import NavBar from "@components/NavBar";
 import ListItemComponent, { ListItemProps } from "@components/ListItem";
@@ -20,24 +20,34 @@ export default function MainScreen({ navigation }: any) {
     // ... add more items as needed
   ];
 
+  const renderItem = ({ item }: { item: ListItemProps }) => (
+    <ListItemComponent {...item} />
+  );
+
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: theme.COLORS.NEUTRAL_LIGHT_MEDIUM }} contentContainerStyle={{ flexGrow: 1 }}>
-      <NavBar title="Meus Recitativos" />
-      {list.map((item, index) => (
-        <ListItemComponent key={index} {...item} />
-      ))}
-      <Button
-        label="Configurações"
-        icon={<Gear color="#fff" size={20} />}
-        position="left"
-        onPress={() => {}}
+    <View style={{ flex: 1, backgroundColor: theme.COLORS.NEUTRAL_LIGHT_MEDIUM }}>
+      <FlatList
+        style={{ flex: 1 }}
+        contentContainerStyle={{ flexGrow: 1 }}
+        data={list}
+        renderItem={renderItem}
+        keyExtractor={(_, index) => index.toString()}
+        ListHeaderComponent={<NavBar title="Meus Recitativos" />}
       />
-      <Button
-        label="Adicionar Verso"
-        icon={<Plus color="#fff" size={20} />}
-        position="right"
-        onPress={() => navigation.navigate('EscolhaLivro')}
-      />
-    </ScrollView>
+      <View style={{ padding: 16 }}>
+        <Button
+          label="Configurações"
+          icon={<Gear color="#fff" size={20} />}
+          position="left"
+          onPress={() => {}}
+        />
+        <Button
+          label="Adicionar Verso"
+          icon={<Plus color="#fff" size={20} />}
+          position="right"
+          onPress={() => navigation.navigate('EscolhaLivro')}
+        />
+      </View>
+    </View>
   );
 }
