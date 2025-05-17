@@ -1,32 +1,37 @@
 import React from "react";
 import styled from "styled-components/native";
-import Button from "../../components/Button";
-import NavBar from "../components/NavBar";
+import Button from "@components/Button";
+import NavBar from "@components/NavBar";
 import { ArrowFatLeft } from "phosphor-react-native";
-import ARC from "../../assets/ARC.json";
+import ARC from "@assets/ARC.json";
 import { FlatList } from "react-native";
+import { useNavigation, useRoute, RouteProp, NavigationProp } from '@react-navigation/native';
 
-const books = ARC.map((book: { name: string }) => book.name);
-
-const EscolhaCapituloScreen = ({ bookName, onBack, onChapterPress }: { bookName: string; onBack: () => void; onChapterPress: (chapterIndex: number) => void }) => {
+const EscolhaCapituloScreen = () => {
+  const route = useRoute<RouteProp<Record<string, { bookName?: string }>, string>>();
+  const { bookName } = route.params || {};
+  const navigation = useNavigation<NavigationProp<Record<string, object | undefined>>>();
 
   const book = ARC.find((book: { name: string }) => book.name === bookName);
   const chaptersArray = book ? book.chapters : [];
 
   const chapters = [];
   for (let idx = 0; idx < chaptersArray.length; idx++) {
-    let chapterTitles = "";
+    let previewVerse = "";
     let entryIdx = 0;
     while (
       entryIdx < chaptersArray[idx].length &&
-      chapterTitles.length < 50
+      previewVerse.length < 50
     ) {
-      if (chapterTitles.length > 0) chapterTitles += " ";
-      chapterTitles += chaptersArray[idx][entryIdx];
+      if (previewVerse.length > 0) previewVerse += " ";
+      previewVerse += chaptersArray[idx][entryIdx];
       entryIdx++;
     }
-    chapters.push(bookName + " " + (idx + 1) + "\n" + chapterTitles);
+    chapters.push(bookName + " " + (idx + 1) + "\n" + previewVerse);
   }
+
+  const handleBack = () => navigation.goBack();
+  const handleChapterPress = (chapterIndex: number) => navigation.navigate('EscolhaVersos', { bookName, chapterIndex });
 
   return (
     <Container>
@@ -37,7 +42,7 @@ const EscolhaCapituloScreen = ({ bookName, onBack, onChapterPress }: { bookName:
           data={chapters}
           keyExtractor={(item, idx) => `${bookName}-${idx}`}
           renderItem={({ item, index }) => (
-            <BookItem key={item} onPress={() => onChapterPress(index)}>
+            <BookItem key={item} onPress={() => handleChapterPress(index)}>
               <BookText numberOfLines={2} ellipsizeMode="tail">{item}</BookText>
             </BookItem>
           )}
@@ -46,7 +51,7 @@ const EscolhaCapituloScreen = ({ bookName, onBack, onChapterPress }: { bookName:
         <ListBorder />
       </BookListContainer>
       <ButtonRow>
-        <Button label="Voltar" onPress={onBack} icon={<ArrowFatLeft size={24} color="#fff" />} />
+        <Button label="Voltar" onPress={handleBack} icon={<ArrowFatLeft size={24} color="#fff" />} />
       </ButtonRow>
     </Container>
   );

@@ -7,6 +7,10 @@ import ListItemContent from "@components/ListItem/ListItemContent";
 import { ReactNode } from "react";
 
 export type VariantTypesProps = "Icon" | "Avatar" | "None";
+
+/**
+ * Propriedades do componente ListItemComponent.
+ */
 export type ListItemProps = ListItemAvatarProps & {
   type: VariantTypesProps;
   title: string;
@@ -17,6 +21,19 @@ export type ListItemProps = ListItemAvatarProps & {
   danger?: boolean;
 };
 
+/**
+ * Componente de item de lista que pode exibir diferentes variantes (ícone, avatar ou nenhum).
+ * @param {ListItemProps} props - Propriedades do componente.
+ * @param {"Icon"|"Avatar"|"None"} props.type - Tipo de variante do item.
+ * @param {string} props.title - Título do item.
+ * @param {string} [props.description] - Descrição opcional do item.
+ * @param {ReactNode} [props.leftIcon] - Ícone à esquerda.
+ * @param {boolean} [props.hasRightIcon] - Se deve exibir ícone à direita.
+ * @param {boolean} [props.selected] - Se o item está selecionado.
+ * @param {boolean} [props.danger] - Se o item está em estado de alerta.
+ * @param {any} [props.avatar] - Avatar do item (quando aplicável).
+ * @returns {JSX.Element} Elemento React do item de lista.
+ */
 export default function ListItemComponent({
   type,
   title,

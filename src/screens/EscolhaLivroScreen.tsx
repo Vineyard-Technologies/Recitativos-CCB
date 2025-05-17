@@ -1,14 +1,18 @@
 import React from "react";
 import styled from "styled-components/native";
 import { FlatList } from "react-native";
-import Button from "../../components/Button";
-import NavBar from "../components/NavBar";
-import ARC from "../../assets/ARC.json";
+import Button from "@components/Button";
+import NavBar from "@components/NavBar";
+import ARC from "@assets/ARC.json";
 import { ArrowFatLeft } from "phosphor-react-native";
+import { useNavigation, NavigationProp } from '@react-navigation/native';
 
 const books = ARC.map((book: { name: string }) => book.name);
 
-const EscolhaLivroScreen = ({ onBack, onBookPress }: { onBack: () => void; onBookPress: (bookName: string) => void }) => {
+const EscolhaLivroScreen = () => {
+  const navigation = useNavigation<NavigationProp<Record<string, object | undefined>>>();
+  const handleBack = () => navigation.goBack();
+  const handleBookPress = (bookName: string) => navigation.navigate('EscolhaCapitulo', { bookName });
   return (
     <Container>
       <NavBar title="Escolha um livro" />
@@ -18,7 +22,7 @@ const EscolhaLivroScreen = ({ onBack, onBookPress }: { onBack: () => void; onBoo
           data={books}
           keyExtractor={(item) => item}
           renderItem={({ item }) => (
-            <BookItem onPress={() => onBookPress(item)}>
+            <BookItem onPress={() => handleBookPress(item)}>
               <BookText>{item}</BookText>
             </BookItem>
           )}
@@ -27,7 +31,7 @@ const EscolhaLivroScreen = ({ onBack, onBookPress }: { onBack: () => void; onBoo
         <ListBorder />
       </BookListContainer>
       <ButtonRow>
-        <Button label="Voltar" onPress={onBack} icon={<ArrowFatLeft size={24} color="#fff" />} />
+        <Button label="Voltar" onPress={handleBack} icon={<ArrowFatLeft size={24} color="#fff" />} />
       </ButtonRow>
     </Container>
   );

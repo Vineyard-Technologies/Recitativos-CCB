@@ -1,14 +1,19 @@
 import React from "react";
 import styled from "styled-components/native";
-import Button from "../../components/Button";
-import NavBar from "../components/NavBar";
+import Button from "@components/Button";
+import NavBar from "@components/NavBar";
 import { ArrowFatLeft, ArrowFatRight, Check, Checks } from "phosphor-react-native";
-import ARC from "../../assets/ARC.json";
+import ARC from "@assets/ARC.json";
 import { FlatList } from "react-native";
+import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 
-const EscolhaVersosScreen = ({ bookName, chapterIndex, onBack }: { bookName: string; chapterIndex: number; onBack: () => void }) => {
+const EscolhaVersosScreen = () => {
+  const navigation = useNavigation();
+  const route = useRoute<RouteProp<Record<string, { bookName?: string; chapterIndex?: number }>, string>>();
+  const { bookName, chapterIndex } = route.params || {};
+
   const book = ARC.find((book: { name: string }) => book.name === bookName);
-  const chapterVerses = book && book.chapters[chapterIndex] ? book.chapters[chapterIndex] : [];
+  const chapterVerses = (book && chapterIndex !== undefined && book.chapters[chapterIndex]) ? book.chapters[chapterIndex] : [];
   const [checked, setChecked] = React.useState<Set<number>>(new Set());
 
   const allSelected = checked.size === chapterVerses.length && chapterVerses.length > 0;
@@ -16,7 +21,7 @@ const EscolhaVersosScreen = ({ bookName, chapterIndex, onBack }: { bookName: str
     if (allSelected) {
       setChecked(new Set());
     } else {
-      setChecked(new Set(chapterVerses.map((_, idx) => idx)));
+      setChecked(new Set(chapterVerses.map((_: string, idx: number) => idx)));
     }
   };
 
@@ -32,6 +37,8 @@ const EscolhaVersosScreen = ({ bookName, chapterIndex, onBack }: { bookName: str
     });
   };
 
+  const handleBack = () => navigation.goBack();
+
   return (
     <Container>
       <NavBar title={`Escolha um verso`} />
@@ -41,7 +48,7 @@ const EscolhaVersosScreen = ({ bookName, chapterIndex, onBack }: { bookName: str
           data={chapterVerses}
           keyExtractor={(_, idx) => `${bookName}-${chapterIndex}-${idx}`}
           renderItem={({ item: verse, index: idx }) => {
-            const reference = `${bookName} ${chapterIndex + 1}:${idx + 1}`;
+            const reference = `${bookName ?? ''} ${chapterIndex !== undefined ? chapterIndex + 1 : ''}:${idx + 1}`;
             return (
               <BookItem
                 key={idx}
@@ -67,7 +74,7 @@ const EscolhaVersosScreen = ({ bookName, chapterIndex, onBack }: { bookName: str
       </BookListContainer>
       <ButtonRow>
         <BottomButton>
-          <Button label="Voltar" onPress={onBack} icon={<ArrowFatLeft size={24} color="#fff" />} />
+          <Button label="Voltar" onPress={handleBack} icon={<ArrowFatLeft size={24} color="#fff" />} />
         </BottomButton>
         <BottomButton>
           <Button label="Todos" onPress={handleSelectAll} icon={<Checks size={24} color="#fff" />} />

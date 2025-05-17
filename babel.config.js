@@ -17,6 +17,7 @@ module.exports = function(api) {
                         '@storage': './src/storage',
                         '@styles': './src/styles',
                         '@utils': './src/utils',
+                        '@assets': './assets',
                     }
                 }
             ]
