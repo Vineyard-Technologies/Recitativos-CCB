@@ -75,22 +75,35 @@ const DecorarScreen = () => {
           leftIcon={<ArrowFatLeft size={24} color="#fff" />} 
           leftOnPress={handleBack}
         />
-        <HiddenInput ref={inputRef} onKeyPress={handleKeyPress} />
+        <TextInput
+          ref={inputRef}
+          onKeyPress={handleKeyPress}
+          style={{ position: 'absolute', left: -1000, width: 1, height: 1, opacity: 0 }}
+          value={''}
+          caretHidden={true}
+          editable={true}
+          showSoftInputOnFocus={true}
+          maxLength={0}
+          selectTextOnFocus={false}
+          contextMenuHidden={true}
+        />
         <VersesScroll keyboardShouldPersistTaps="handled">
           {Array.isArray(verses) && verses.length > 0 ? (
-            verses.map((verse: string, vIdx: number) => {
-              const words = splitWords(verse);
-              const currIdx = wordStates[vIdx] ?? 0;
+            (() => {
+              // Concatenate all verses into a single string
+              const allText = verses.join(' ');
+              const words = splitWords(allText);
+              // For wordStates, sum all progress
+              const totalProgress = Object.values(wordStates).reduce((a, b) => a + b, 0);
               let wordIdx = 0;
               return (
-                <VerseLine key={vIdx}>
+                <VerseLine>
                   {words.map((word, idx) => {
-                    // Only count non-whitespace for progression
                     const isWord = word.trim().length > 0;
                     let opacity = 0.5;
                     if (isWord) {
-                      if (wordIdx < currIdx) opacity = 1;
-                      else if (wordIdx === currIdx) opacity = 0.5;
+                      if (wordIdx < totalProgress) opacity = 1;
+                      else if (wordIdx === totalProgress) opacity = 0.5;
                       else opacity = 0.5;
                       wordIdx++;
                     }
@@ -100,7 +113,7 @@ const DecorarScreen = () => {
                   })}
                 </VerseLine>
               );
-            })
+            })()
           ) : (
             <VerseText>Nenhum verso selecionado.</VerseText>
           )}
@@ -139,18 +152,5 @@ const VerseText = styled.Text`
   text-align: left;
   margin-bottom: 24px;
 `;
-
-const HiddenInput = styled.TextInput.attrs({
-  editable: true,
-  autoFocus: false,
-  style: { height: 0, width: 0, padding: 0, margin: 0, borderWidth: 0, color: 'transparent', backgroundColor: 'transparent', opacity: 0 },
-  caretHidden: true,
-  underlineColorAndroid: 'transparent',
-  value: '', // Always empty
-  showSoftInputOnFocus: true,
-  maxLength: 0, // Prevent any input from being displayed
-  selectTextOnFocus: false,
-  contextMenuHidden: true,
-})``;
 
 export default DecorarScreen;
