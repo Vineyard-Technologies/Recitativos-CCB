@@ -5,10 +5,10 @@ import NavBar from "@components/NavBar";
 import { ArrowFatLeft, ArrowFatRight, Check, Checks } from "phosphor-react-native";
 import ARC from "@assets/ARC.json";
 import { FlatList } from "react-native";
-import { useNavigation, useRoute, RouteProp, NavigationProp } from '@react-navigation/native';
+import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 
 const EscolhaVersosScreen = () => {
-  const navigation = useNavigation<NavigationProp<Record<string, object | undefined>>>();
+  const navigation = useNavigation();
   const route = useRoute<RouteProp<Record<string, { bookName?: string; chapterIndex?: number }>, string>>();
   const { bookName, chapterIndex } = route.params || {};
 
@@ -50,29 +50,6 @@ const EscolhaVersosScreen = () => {
   };
 
   const handleBack = () => navigation.goBack();
-
-  const getDecoracaoTitle = (bookName: string, chapterIndex: number, checked: Set<number>) => {
-    if (!bookName || checked.size === 0) return '';
-    const sorted = Array.from(checked).sort((a, b) => a - b);
-    const first = sorted[0] + 1;
-    const last = sorted[sorted.length - 1] + 1;
-    if (sorted.length === 1) {
-      return `${bookName} ${chapterIndex + 1}:${first}`;
-    }
-    return `${bookName} ${chapterIndex + 1}:${first}-${last}`;
-  };
-
-  const getSelectedVerses = () => {
-    const sorted = Array.from(checked).sort((a, b) => a - b);
-    return sorted.map(idx => chapterVerses[idx]);
-  };
-
-  const handleDecorar = () => {
-    if (!bookName || chapterIndex === undefined || checked.size === 0) return;
-    const title = getDecoracaoTitle(bookName, chapterIndex, checked);
-    const verses = getSelectedVerses();
-    navigation.navigate('Decorar', { title, verses });
-  };
 
   return (
     <Container>
@@ -116,7 +93,7 @@ const EscolhaVersosScreen = () => {
           <Button label="Selecionar Todos" onPress={handleSelectAll} icon={<Checks size={24} color="#fff" />} />
         </BottomButton>
         <BottomButton>
-          <Button label="Decorar" onPress={handleDecorar} icon={<ArrowFatRight size={24} color="#fff" />} />
+          <Button label="Decorar" onPress={() => { /* TODO: handle decorar */ }} icon={<ArrowFatRight size={24} color="#fff" />} />
         </BottomButton>
       </ButtonRow>
     </Container>
