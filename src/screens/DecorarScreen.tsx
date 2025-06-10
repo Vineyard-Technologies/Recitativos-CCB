@@ -31,6 +31,10 @@ const DecorarScreen = () => {
           ref={inputRef}
           style={{ height: 0, width: 0, position: 'absolute', opacity: 0 }}
           autoFocus
+          autoCorrect={false}
+          spellCheck={false}
+          autoComplete="off"
+          keyboardType="visible-password"
         />
         {verses.map((verse, idx) => (
           <VerseText key={idx} onPress={() => inputRef.current?.focus()}>{verse}</VerseText>
