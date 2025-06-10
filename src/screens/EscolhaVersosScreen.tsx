@@ -5,10 +5,10 @@ import NavBar from "@components/NavBar";
 import { ArrowFatLeft, ArrowFatRight, Check, Checks } from "phosphor-react-native";
 import ARC from "@assets/ARC.json";
 import { FlatList } from "react-native";
-import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
+import { useNavigation, useRoute, RouteProp, NavigationProp } from '@react-navigation/native';
 
 const EscolhaVersosScreen = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp<Record<string, object | undefined>>>();
   const route = useRoute<RouteProp<Record<string, { bookName?: string; chapterIndex?: number }>, string>>();
   const { bookName, chapterIndex } = route.params || {};
 
@@ -38,6 +38,20 @@ const EscolhaVersosScreen = () => {
   };
 
   const handleBack = () => navigation.goBack();
+
+  const handleDecorar = () => {
+    if (!bookName || chapterIndex === undefined) return;
+    if (checked.size === 0) return;
+    // Compose title like Genesis 1:1-3
+    const sorted = Array.from(checked).sort((a, b) => a - b);
+    const first = sorted[0] + 1;
+    const last = sorted[sorted.length - 1] + 1;
+    const title = sorted.length === 1
+      ? `${bookName} ${chapterIndex + 1}:${first}`
+      : `${bookName} ${chapterIndex + 1}:${first}-${last}`;
+    const verses = sorted.map(idx => chapterVerses[idx]);
+    navigation.navigate('Decorar', { title, verses });
+  };
 
   return (
     <Container>
@@ -80,7 +94,7 @@ const EscolhaVersosScreen = () => {
           <Button label="Todos" onPress={handleSelectAll} icon={<Checks size={24} color="#fff" />} />
         </BottomButton>
         <BottomButton>
-          <Button label="Decorar" onPress={() => { /* TODO: handle decorar */ }} icon={<ArrowFatRight size={24} color="#fff" />} />
+          <Button label="Decorar" onPress={handleDecorar} icon={<ArrowFatRight size={24} color="#fff" />} />
         </BottomButton>
       </ButtonRow>
     </Container>
