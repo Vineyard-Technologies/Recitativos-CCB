@@ -19,6 +19,8 @@ export type ListItemProps = ListItemAvatarProps & {
   hasRightIcon?: boolean;
   selected?: boolean;
   danger?: boolean;
+  onPress?: () => void;
+  onLongPress?: () => void;
 };
 
 /**
@@ -43,11 +45,17 @@ export default function ListItemComponent({
   hasRightIcon,
   selected = false,
   danger = false,
+  onPress,
+  onLongPress,
 }: ListItemProps) {
   switch (type) {
     case "Icon":
       return (
-        <ListItemRoot selected={selected}>
+        <ListItemRoot
+          selected={selected}
+          onPress={onPress}
+          onLongPress={onLongPress}
+        >
           <ListItemIcon icon={leftIcon} side="left" danger={danger} />
           <ListItemContent {...{ title, description, danger }} />
           {hasRightIcon && <ListItemIcon side="right" selected={selected} />}
@@ -55,7 +63,11 @@ export default function ListItemComponent({
       );
     case "Avatar":
       return (
-        <ListItemRoot selected={selected}>
+        <ListItemRoot
+          selected={selected}
+          onPress={onPress}
+          onLongPress={onLongPress}
+        >
           <ListItemAvatar avatar={avatar} />
           <ListItemContent {...{ title, description, danger }} />
           {hasRightIcon && <ListItemIcon selected={selected} side="right" />}
@@ -64,7 +76,11 @@ export default function ListItemComponent({
 
     default:
       return (
-        <ListItemRoot selected={selected}>
+        <ListItemRoot
+          selected={selected}
+          onPress={onPress}
+          onLongPress={onLongPress}
+        >
           <ListItemContent {...{ title, description, danger }} />
           {hasRightIcon && <ListItemIcon side="right" selected={selected} />}
         </ListItemRoot>
