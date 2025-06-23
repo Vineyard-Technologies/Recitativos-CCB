@@ -11,6 +11,8 @@ import {ReactNode} from "react";
 type ContainerProps = {
 	children: ReactNode;
 	selected: boolean;
+	onPress?: () => void;
+	onLongPress?: () => void;
 };
 
 /**
@@ -18,9 +20,9 @@ type ContainerProps = {
  * @param {ContainerProps} props - Propriedades do componente.
  * @returns {JSX.Element} Elemento React do item da lista.
  */
-export default function ListItemRoot({children, selected}: ContainerProps) {
+export default function ListItemRoot({children, selected, onPress, onLongPress}: ContainerProps) {
 	return (
-		<TouchableOpacity>
+		<TouchableOpacity onPress={onPress} onLongPress={onLongPress}>
 			<Container selected={selected}>
 				{children}
 			</Container>
