@@ -5,6 +5,7 @@ import EscolhaLivroScreen from "@screens/EscolhaLivroScreen";
 import EscolhaCapituloScreen from "@screens/EscolhaCapituloScreen";
 import EscolhaVersosScreen from "@screens/EscolhaVersosScreen";
 import MainScreen from "@screens/MainScreen";
+import ConfiguracoesScreen from "@screens/ConfiguracoesScreen";
 import DecorarScreen from "@screens/DecorarScreen";
 
 const Stack = createStackNavigator();
@@ -25,6 +26,7 @@ export default function AppNavigator({ initialParams }: { initialParams?: any })
         <Stack.Screen name="EscolhaCapitulo" component={EscolhaCapituloScreen} />
         <Stack.Screen name="EscolhaVersos" component={EscolhaVersosScreen} />
         <Stack.Screen name="Decorar" component={DecorarScreen} />
+        <Stack.Screen name="Configuracoes" component={ConfiguracoesScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
