@@ -5,7 +5,7 @@ export const Container = styled.View`
 		flex-direction: row;
 		justify-content: space-between;
 		align-items: center;
-    height: 60px;
+    min-height: 60px;
     padding: 15px 24px;
 `;
 
@@ -13,9 +13,9 @@ export const Title = styled.Text`
     ${({theme}) => css`
         ${theme.HEADING.H1};
         color: ${theme.COLORS.NEUTRAL_DARK_DARKEST};
-        line-height: 35px;
-        padding-top: 0px;
-		padding-bottom: 0px;
+        include-font-padding: false;
+        padding-vertical: 0;
+        text-align-vertical: center;
     `}
 `;
 

@@ -4,12 +4,16 @@ import NavBar from "@components/NavBar";
 import { useNavigation, useRoute, RouteProp, NavigationProp } from '@react-navigation/native';
 import { ArrowFatLeft } from "phosphor-react-native";
 import { TextInput, InteractionManager, TextStyle, StyleProp } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+const IGNORE_ACCENTS_KEY = '@ignoreAccents';
 
 const DecorarScreen = () => {
   const navigation = useNavigation<NavigationProp<Record<string, object | undefined>>>();
   const route = useRoute<RouteProp<Record<string, { title: string; verses: string[] }>, string>>();
   const { title, verses } = route.params || { title: '', verses: [] };
   const theme = useTheme();
+  const [ignoreAccents, setIgnoreAccents] = useState(true);
 
   // Store the verses to display in a variable
   const versesToDisplay = verses.join(' ');
@@ -24,6 +28,20 @@ const DecorarScreen = () => {
 
   const inputRef = useRef<TextInput>(null);
 
+  useEffect(() => {
+    const loadSettings = async () => {
+      try {
+        const savedValue = await AsyncStorage.getItem(IGNORE_ACCENTS_KEY);
+        if (savedValue !== null) {
+          setIgnoreAccents(JSON.parse(savedValue));
+        }
+      } catch (e) {
+        console.error("Failed to load settings.", e);
+      }
+    };
+    loadSettings();
+  }, []);
+
   // Handle key press events from the keyboard
   const handleKeyPress = (event: { nativeEvent: { key: string } }) => {
     const keyPressed = event.nativeEvent.key;
@@ -36,7 +54,15 @@ const DecorarScreen = () => {
 
       const newStyle: TextStyle = { ...currentStyle, opacity: 1 };
 
-      if (keyPressed.toLowerCase() !== expectedFirstLetter.toLowerCase()) {
+      const normalize = (str: string) => str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+      let match = keyPressed.toLowerCase() === expectedFirstLetter.toLowerCase();
+
+      if (ignoreAccents && !match) {
+        match = normalize(keyPressed.toLowerCase()) === normalize(expectedFirstLetter.toLowerCase());
+      }
+
+      if (!match) {
         newStyle.color = theme.COLORS.ERROR_MEDIUM;
       }
 
