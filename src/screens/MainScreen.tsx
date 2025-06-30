@@ -78,7 +78,7 @@ export default function MainScreen({ navigation }: any) {
           label="Configurações"
           icon={<Gear color="#fff" size={20} />}
           position="left"
-          onPress={() => {}}
+          onPress={() => navigation.navigate('Configuracoes')}
         />
         <Button
           label="Adicionar Verso"

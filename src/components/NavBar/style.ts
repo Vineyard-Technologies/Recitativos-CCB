@@ -13,8 +13,9 @@ export const Title = styled.Text`
     ${({theme}) => css`
         ${theme.HEADING.H1};
         color: ${theme.COLORS.NEUTRAL_DARK_DARKEST};
-        line-height: 24px;
-        padding-top: 4px;
+        line-height: 35px;
+        padding-top: 0px;
+		padding-bottom: 0px;
     `}
 `;
 

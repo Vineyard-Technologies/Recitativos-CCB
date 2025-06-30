@@ -1,16 +1,50 @@
-import React, { useEffect, useRef } from "react";
-import styled from "styled-components/native";
+import React, { useEffect, useRef, useState } from "react";
+import styled, { useTheme } from "styled-components/native";
 import NavBar from "@components/NavBar";
 import { useNavigation, useRoute, RouteProp, NavigationProp } from '@react-navigation/native';
 import { ArrowFatLeft } from "phosphor-react-native";
-import { TextInput, InteractionManager } from "react-native";
+import { TextInput, InteractionManager, TextStyle, StyleProp } from "react-native";
 
 const DecorarScreen = () => {
   const navigation = useNavigation<NavigationProp<Record<string, object | undefined>>>();
   const route = useRoute<RouteProp<Record<string, { title: string; verses: string[] }>, string>>();
   const { title, verses } = route.params || { title: '', verses: [] };
+  const theme = useTheme();
+
+  // Store the verses to display in a variable
+  const versesToDisplay = verses.join(' ');
+
+  const wordArray = versesToDisplay.split(' ');
+
+  const firstLetters = wordArray.map(word => word.charAt(0));
+
+  const [currentWordIndex, setCurrentWordIndex] = useState(0);
+  const [wordStyles, setWordStyles] = useState<StyleProp<TextStyle>[]>
+    (Array(wordArray.length).fill({ opacity: 0.75 }));
 
   const inputRef = useRef<TextInput>(null);
+
+  // Handle key press events from the keyboard
+  const handleKeyPress = (event: { nativeEvent: { key: string } }) => {
+    const keyPressed = event.nativeEvent.key;
+
+    if (currentWordIndex < wordArray.length) {
+      const expectedFirstLetter = firstLetters[currentWordIndex];
+
+      const newWordStyles = [...wordStyles];
+      const currentStyle = (wordStyles[currentWordIndex] as TextStyle) || {};
+
+      const newStyle: TextStyle = { ...currentStyle, opacity: 1 };
+
+      if (keyPressed.toLowerCase() !== expectedFirstLetter.toLowerCase()) {
+        newStyle.color = theme.COLORS.ERROR_MEDIUM;
+      }
+
+      newWordStyles[currentWordIndex] = newStyle;
+      setWordStyles(newWordStyles);
+      setCurrentWordIndex(currentWordIndex + 1);
+    }
+  };
 
   useEffect(() => {
     // Focus the input and open the keyboard when the screen mounts
@@ -36,10 +70,17 @@ const DecorarScreen = () => {
           spellCheck={false}
           autoComplete="off"
           keyboardType="visible-password"
+          onKeyPress={handleKeyPress}
         />
-        {verses.map((verse, idx) => (
-          <VerseText key={idx} onPress={() => inputRef.current?.focus()}>{verse}</VerseText>
-        ))}
+        <VerseTextContainer
+          onPress={() => inputRef.current?.focus()}
+        >
+          {wordArray.map((word, index) => (
+            <VerseText key={index} style={wordStyles[index]}>
+              {word}{' '}
+            </VerseText>
+          ))}
+        </VerseTextContainer>
       </VersesContainer>
     </Container>
   );
@@ -55,10 +96,15 @@ const VersesContainer = styled.ScrollView`
   margin: 16px;
 `;
 
-const VerseText = styled.Text`
+const VerseTextContainer = styled.Text`
   ${({ theme }) => theme.HEADING.H2};
   color: ${({ theme }) => theme.COLORS.NEUTRAL_DARK_DARKEST};
   margin-bottom: 16px;
+`;
+
+const VerseText = styled.Text`
+  ${({ theme }) => theme.HEADING.H2};
+  color: ${({ theme }) => theme.COLORS.NEUTRAL_DARK_DARKEST};
 `;
 
 export default DecorarScreen;
