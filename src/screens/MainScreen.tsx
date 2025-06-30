@@ -1,27 +1,61 @@
 import React from "react";
-import { FlatList, View } from "react-native";
-import { useTheme } from 'styled-components/native';
+import { FlatList, View, Text, Alert, AlertButton } from "react-native";
+import styled, { useTheme } from 'styled-components/native';
 import NavBar from "@components/NavBar";
 import ListItemComponent, { ListItemProps } from "@components/ListItem";
 import Button from "@components/Button";
 import { Gear, Plus } from "phosphor-react-native";
+import { useRecitativos } from "@contexts/RecitativosContext";
 
 export default function MainScreen({ navigation }: any) {
   const theme = useTheme();
+  const { recitativos, moveRecitativoUp, moveRecitativoDown, deleteRecitativo } = useRecitativos();
 
-  const list: ListItemProps[] = [
-    {
-      type: "Icon",
-      title: "Genesis 1:1",
-      description: "No princípio, Deus criou os céus e a terra.",
-      hasRightIcon: true,
-      avatar: { uri: "" }, // Provide a dummy avatar for type compatibility
-    },
-    // ... add more items as needed
-  ];
+  const handleLongPress = (index: number) => {
+    const menuOptions: AlertButton[] = [];
+
+    if (index > 0) {
+      menuOptions.push({
+        text: "Mover para cima",
+        onPress: () => moveRecitativoUp(index),
+      });
+    }
+
+    if (index < recitativos.length - 1) {
+      menuOptions.push({
+        text: "Mover para baixo",
+        onPress: () => moveRecitativoDown(index),
+      });
+    }
+
+    menuOptions.push(
+      {
+        text: "Excluir",
+        onPress: () => deleteRecitativo(index),
+        style: "destructive",
+      },
+      {
+        text: "Cancelar",
+        style: "cancel",
+      }
+    );
+
+    Alert.alert("Ações", "", menuOptions, { cancelable: true });
+  };
+
+  const list: ListItemProps[] = recitativos.map((item, index) => ({
+    type: "Icon",
+    title: item.title,
+    hasRightIcon: true,
+    onPress: () => navigation.navigate('Decorar', { title: item.title, verses: item.verses }),
+    onLongPress: () => handleLongPress(index),
+    avatar: { uri: "" }, // Provide a dummy avatar for type compatibility
+  }));
 
   const renderItem = ({ item }: { item: ListItemProps }) => (
-    <ListItemComponent {...item} />
+    <View style={{ marginBottom: 12 }}>
+      <ListItemComponent {...item} />
+    </View>
   );
 
   return (
@@ -33,6 +67,11 @@ export default function MainScreen({ navigation }: any) {
         renderItem={renderItem}
         keyExtractor={(_, index) => index.toString()}
         ListHeaderComponent={<NavBar title="Meus Recitativos" />}
+        ListEmptyComponent={
+          <EmptyListContainer>
+            <EmptyListText>não há versos salvos</EmptyListText>
+          </EmptyListContainer>
+        }
       />
       <View style={{ padding: 16 }}>
         <Button
@@ -51,3 +90,15 @@ export default function MainScreen({ navigation }: any) {
     </View>
   );
 }
+
+const EmptyListContainer = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`;
+
+const EmptyListText = styled.Text`
+  ${({ theme }) => theme.HEADING.H2};
+  color: ${({ theme }) => theme.COLORS.NEUTRAL_DARK_LIGHTEST};
+  font-style: italic;
+`;

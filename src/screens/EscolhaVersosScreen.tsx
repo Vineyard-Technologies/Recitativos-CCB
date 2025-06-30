@@ -4,12 +4,14 @@ import Button from "@components/Button";
 import NavBar from "@components/NavBar";
 import { ArrowFatLeft, ArrowFatRight, Check, Checks } from "phosphor-react-native";
 import ARC from "@assets/ARC.json";
-import { FlatList } from "react-native";
+import { FlatList, Alert } from "react-native";
 import { useNavigation, useRoute, RouteProp, NavigationProp } from '@react-navigation/native';
+import { useRecitativos } from "@contexts/RecitativosContext";
 
 const EscolhaVersosScreen = () => {
   const navigation = useNavigation<NavigationProp<Record<string, object | undefined>>>();
   const route = useRoute<RouteProp<Record<string, { bookName?: string; chapterIndex?: number }>, string>>();
+  const { recitativos, addRecitativo } = useRecitativos();
   const { bookName, chapterIndex } = route.params || {};
 
   const book = ARC.find((book: { name: string }) => book.name === bookName);
@@ -49,7 +51,15 @@ const EscolhaVersosScreen = () => {
     const title = sorted.length === 1
       ? `${bookName} ${chapterIndex + 1}:${first}`
       : `${bookName} ${chapterIndex + 1}:${first}-${last}`;
+
+    const isDuplicate = recitativos.some(r => r.title === title);
+    if (isDuplicate) {
+      Alert.alert("Seleção Duplicada", "Esta seleção já está na sua lista de versos.");
+      return;
+    }
+
     const verses = sorted.map(idx => chapterVerses[idx]);
+    addRecitativo({ title, verses });
     navigation.navigate('Decorar', { title, verses });
   };
 

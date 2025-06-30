@@ -3,7 +3,7 @@ import styled from "styled-components/native";
 import NavBar from "@components/NavBar";
 import { useNavigation, useRoute, RouteProp, NavigationProp } from '@react-navigation/native';
 import { ArrowFatLeft } from "phosphor-react-native";
-import { TextInput } from "react-native";
+import { TextInput, InteractionManager } from "react-native";
 
 const DecorarScreen = () => {
   const navigation = useNavigation<NavigationProp<Record<string, object | undefined>>>();
@@ -14,7 +14,9 @@ const DecorarScreen = () => {
 
   useEffect(() => {
     // Focus the input and open the keyboard when the screen mounts
-    inputRef.current?.focus();
+    InteractionManager.runAfterInteractions(() => {
+      inputRef.current?.focus();
+    });
   }, []);
 
   const handleBack = () => navigation.navigate('Main');
@@ -30,7 +32,6 @@ const DecorarScreen = () => {
         <TextInput
           ref={inputRef}
           style={{ height: 0, width: 0, position: 'absolute', opacity: 0 }}
-          autoFocus
           autoCorrect={false}
           spellCheck={false}
           autoComplete="off"

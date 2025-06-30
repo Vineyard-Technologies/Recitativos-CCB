@@ -2,6 +2,7 @@ import React from "react";
 import { StatusBar } from "react-native";
 import { useFonts } from "expo-font";
 import { ThemeProvider } from "@contexts/tema";
+import { RecitativosProvider } from "@contexts/RecitativosContext";
 import styled from "styled-components/native";
 import AppNavigator from "./AppNavigator";
 
@@ -19,10 +20,12 @@ export default function App() {
 
   return (
     <ThemeProvider>
-      <StatusBar barStyle="default" />
-      <Container>
-        <AppNavigator />
-      </Container>
+      <RecitativosProvider>
+        <StatusBar barStyle="default" />
+        <Container>
+          <AppNavigator />
+        </Container>
+      </RecitativosProvider>
     </ThemeProvider>
   );
 }
