@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled, { useTheme } from "styled-components/native";
+import { Alert } from "react-native";
+import { useRecitativos } from "@contexts/RecitativosContext";
 import NavBar from "@components/NavBar";
 import { useNavigation, useRoute, RouteProp, NavigationProp } from '@react-navigation/native';
 import { ArrowFatLeft } from "phosphor-react-native";
@@ -10,8 +12,8 @@ const IGNORE_ACCENTS_KEY = '@ignoreAccents';
 
 const DecorarScreen = () => {
   const navigation = useNavigation<NavigationProp<Record<string, object | undefined>>>();
-  const route = useRoute<RouteProp<Record<string, { title: string; verses: string[] }>, string>>();
-  const { title, verses } = route.params || { title: '', verses: [] };
+  const route = useRoute<RouteProp<Record<string, { title: string; verses: string[]; level?: number }>, string>>();
+  const { title, verses, level: initialLevel } = route.params || { title: '', verses: [], level: 1 };
   const theme = useTheme();
   const [ignoreAccents, setIgnoreAccents] = useState(true);
 
@@ -24,7 +26,14 @@ const DecorarScreen = () => {
 
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [wordStyles, setWordStyles] = useState<StyleProp<TextStyle>[]>
-    (Array(wordArray.length).fill({ opacity: 0.75 }));
+    (Array(wordArray.length).fill(
+      (initialLevel ?? 1) === 2
+        ? undefined // will be set after first success
+        : { opacity: 0.5 }
+    ));
+  const [correctCount, setCorrectCount] = useState(0);
+  const [level, setLevel] = useState(initialLevel ?? 1);
+  const { updateRecitativoLevel } = useRecitativos();
 
   const inputRef = useRef<TextInput>(null);
 
@@ -40,6 +49,12 @@ const DecorarScreen = () => {
       }
     };
     loadSettings();
+    // Set initial word styles for level 2 or 3
+    if ((initialLevel ?? 1) === 2) {
+      setWordStyles(wordArray.map((_, i) => (i % 2 === 1 ? { opacity: 0 } : { opacity: 0.5 })));
+    } else if ((initialLevel ?? 1) === 3) {
+      setWordStyles(Array(wordArray.length).fill({ opacity: 0 }));
+    }
   }, []);
 
   // Handle key press events from the keyboard
@@ -62,13 +77,109 @@ const DecorarScreen = () => {
         match = normalize(keyPressed.toLowerCase()) === normalize(expectedFirstLetter.toLowerCase());
       }
 
-      if (!match) {
+      if (match) {
+        setCorrectCount(prev => prev + 1);
+      } else {
         newStyle.color = theme.COLORS.ERROR_MEDIUM;
       }
 
       newWordStyles[currentWordIndex] = newStyle;
       setWordStyles(newWordStyles);
-      setCurrentWordIndex(currentWordIndex + 1);
+      const nextIndex = currentWordIndex + 1;
+      setCurrentWordIndex(nextIndex);
+
+      // If last word, evaluate result
+      if (nextIndex === wordArray.length) {
+        setTimeout(() => {
+          const percent = Math.round(((correctCount + (match ? 1 : 0)) / wordArray.length) * 100);
+          if (level === 3) {
+            Alert.alert(
+              "Resultado",
+              `Você acertou ${percent}% das palavras!`,
+              [
+                {
+                  text: "OK",
+                  onPress: () => {
+                    navigation.navigate('Main');
+                  }
+                }
+              ]
+            );
+          } else if (level === 2) {
+            if (percent >= 90) {
+              Alert.alert(
+                "Bom trabalho!",
+                "Agora vamos ver se você decorou mesmo!",
+                [
+                  {
+                    text: "OK",
+                    onPress: () => {
+                      updateRecitativoLevel(title, 3);
+                      setLevel(3);
+                      setWordStyles(Array(wordArray.length).fill({ opacity: 0 }));
+                      setCurrentWordIndex(0);
+                      setCorrectCount(0);
+                    }
+                  }
+                ]
+              );
+            } else {
+              Alert.alert(
+                "Muitos erros!",
+                "Tente novamente!",
+                [
+                  {
+                    text: "OK",
+                    onPress: () => {
+                      // Restart with current level 2 wordStyles
+                      setWordStyles(wordArray.map((_, i) => (i % 2 === 1 ? { opacity: 0 } : { opacity: 0.5 })));
+                      setCurrentWordIndex(0);
+                      setCorrectCount(0);
+                    }
+                  }
+                ]
+              );
+            }
+          } else if (percent >= 90) {
+            Alert.alert(
+              "Bom trabalho!",
+              "Agora, tente novamente, com algumas palavras escondidas!",
+              [
+                {
+                  text: "OK",
+                  onPress: () => {
+                    updateRecitativoLevel(title, 2);
+                    setLevel(2);
+                    // Hide every other word
+                    const newStyles = wordArray.map((_, i) =>
+                      i % 2 === 1 ? { opacity: 0 } : { opacity: 0.5 }
+                    );
+                    setWordStyles(newStyles);
+                    setCurrentWordIndex(0);
+                    setCorrectCount(0);
+                  }
+                }
+              ]
+            );
+          } else {
+            Alert.alert(
+              "Muitos erros!",
+              "Tente novamente!",
+              [
+                {
+                  text: "OK",
+                  onPress: () => {
+                    // Restart with all visible
+                    setWordStyles(Array(wordArray.length).fill({ opacity: 0.5 }));
+                    setCurrentWordIndex(0);
+                    setCorrectCount(0);
+                  }
+                }
+              ]
+            );
+          }
+        }, 300);
+      }
     }
   };
 

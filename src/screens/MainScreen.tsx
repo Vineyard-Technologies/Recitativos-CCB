@@ -43,11 +43,13 @@ export default function MainScreen({ navigation }: any) {
     Alert.alert("Ações", "", menuOptions, { cancelable: true });
   };
 
-  const list: ListItemProps[] = recitativos.map((item, index) => ({
+  const list: (ListItemProps & { level?: number })[] = recitativos.map((item, index) => ({
     type: "Icon",
     title: item.title,
     hasRightIcon: true,
-    onPress: () => navigation.navigate('Decorar', { title: item.title, verses: item.verses }),
+    memorizationPercentage: 0,
+    level: item.level ?? 1,
+    onPress: () => navigation.navigate('Decorar', { title: item.title, verses: item.verses, level: item.level ?? 1 }),
     onLongPress: () => handleLongPress(index),
     avatar: { uri: "" }, // Provide a dummy avatar for type compatibility
   }));
