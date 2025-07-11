@@ -1,4 +1,4 @@
-![Recitativos CCB Logo](images/icon.png)
+![Recitativos CCB Logo](src/images/icon.png)
 
 A React Native app for memorizing Portuguese scripture verses using mnemonic techniques. / Um aplicativo React Native para memorizar versículos bíblicos em português usando técnicas mnemônicas.
 
