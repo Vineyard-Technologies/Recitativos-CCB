@@ -5,6 +5,7 @@ import ListItemRoot from "@components/ListItem/ListItemRoot";
 import ListItemIcon from "@components/ListItem/ListItemIcon";
 import ListItemContent from "@components/ListItem/ListItemContent";
 import { ReactNode } from "react";
+import { useTheme } from 'styled-components/native';
 
 export type VariantTypesProps = "Icon" | "Avatar" | "None";
 
@@ -23,6 +24,31 @@ export type ListItemProps = ListItemAvatarProps & {
   onLongPress?: () => void;
   memorizationPercentage?: number;
 };
+
+/**
+ * Renderiza o componente de porcentagem de memorização se o valor for um número válido.
+ * @param {number} [memorizationPercentage] - Porcentagem de memorização.
+ * @returns {JSX.Element | null} Componente de porcentagem ou null.
+ */
+function renderMemorizationPercentage(memorizationPercentage?: number) {
+  const theme = useTheme();
+  
+  if (typeof memorizationPercentage !== 'number') {
+    return null;
+  }
+  
+  return (
+    <MemorizationPercentage
+      color={
+        memorizationPercentage <= 40 ? theme.COLORS.ERROR_MEDIUM :
+        memorizationPercentage <= 79 ? theme.COLORS.WARNING_MEDIUM :
+        theme.COLORS.SUCCESS_MEDIUM
+      }
+    >
+      {memorizationPercentage}%
+    </MemorizationPercentage>
+  );
+}
 
 /**
  * Componente de item de lista que pode exibir diferentes variantes (ícone, avatar ou nenhum).
@@ -61,17 +87,7 @@ export default function ListItemComponent({
         >
           <ListItemIcon icon={leftIcon} side="left" danger={danger} />
           <ListItemContent {...{ title, description, danger }} />
-          {typeof memorizationPercentage === 'number' && (
-            <MemorizationPercentage
-              color={
-                memorizationPercentage <= 40 ? theme.COLORS.ERROR_MEDIUM :
-                memorizationPercentage <= 79 ? theme.COLORS.WARNING_MEDIUM :
-                theme.COLORS.SUCCESS_MEDIUM
-              }
-            >
-              {memorizationPercentage}%
-            </MemorizationPercentage>
-          )}
+          {renderMemorizationPercentage(memorizationPercentage)}
           {hasRightIcon && <ListItemIcon side="right" selected={selected} />}
         </ListItemRoot>
       );
@@ -84,17 +100,7 @@ export default function ListItemComponent({
         >
           <ListItemAvatar avatar={avatar} />
           <ListItemContent {...{ title, description, danger }} />
-          {typeof memorizationPercentage === 'number' && (
-            <MemorizationPercentage
-              color={
-                memorizationPercentage <= 40 ? theme.COLORS.ERROR_MEDIUM :
-                memorizationPercentage <= 79 ? theme.COLORS.WARNING_MEDIUM :
-                theme.COLORS.SUCCESS_MEDIUM
-              }
-            >
-              {memorizationPercentage}%
-            </MemorizationPercentage>
-          )}
+          {renderMemorizationPercentage(memorizationPercentage)}
           {hasRightIcon && <ListItemIcon selected={selected} side="right" />}
         </ListItemRoot>
       );
@@ -107,17 +113,7 @@ export default function ListItemComponent({
           onLongPress={onLongPress}
         >
           <ListItemContent {...{ title, description, danger }} />
-          {typeof memorizationPercentage === 'number' && (
-            <MemorizationPercentage
-              color={
-                memorizationPercentage <= 40 ? theme.COLORS.ERROR_MEDIUM :
-                memorizationPercentage <= 79 ? theme.COLORS.WARNING_MEDIUM :
-                theme.COLORS.SUCCESS_MEDIUM
-              }
-            >
-              {memorizationPercentage}%
-            </MemorizationPercentage>
-          )}
+          {renderMemorizationPercentage(memorizationPercentage)}
           {hasRightIcon && <ListItemIcon side="right" selected={selected} />}
         </ListItemRoot>
       );
@@ -126,7 +122,6 @@ export default function ListItemComponent({
 }
 
 import styled from 'styled-components/native';
-import { useTheme } from 'styled-components/native';
 
 const MemorizationPercentage = styled.Text<{ color: string }>`
   font-weight: bold;
