@@ -6,6 +6,7 @@ const RECITATIVOS_STORAGE_KEY = '@recitativos';
 export interface Recitativo {
   title: string;
   verses: string[];
+  level?: number;
 }
 
 interface RecitativosContextType {
@@ -14,6 +15,7 @@ interface RecitativosContextType {
   moveRecitativoUp: (index: number) => void;
   moveRecitativoDown: (index: number) => void;
   deleteRecitativo: (index: number) => void;
+  updateRecitativoLevel: (title: string, level: number) => void;
 }
 
 const RecitativosContext = createContext<RecitativosContextType | undefined>(undefined);
@@ -72,8 +74,15 @@ export const RecitativosProvider: React.FC<{ children: React.ReactNode }> = ({ c
     saveRecitativos(newRecitativos);
   };
 
+  const updateRecitativoLevel = (title: string, level: number) => {
+    const newRecitativos = recitativos.map(r =>
+      r.title === title ? { ...r, level } : r
+    );
+    saveRecitativos(newRecitativos);
+  };
+
   return (
-    <RecitativosContext.Provider value={{ recitativos, addRecitativo, moveRecitativoUp, moveRecitativoDown, deleteRecitativo }}>
+    <RecitativosContext.Provider value={{ recitativos, addRecitativo, moveRecitativoUp, moveRecitativoDown, deleteRecitativo, updateRecitativoLevel }}>
       {children}
     </RecitativosContext.Provider>
   );

@@ -16,15 +16,15 @@ const EscolhaCapituloScreen = () => {
   const chaptersArray = book ? book.chapters : [];
 
   const chapters = [];
-  for (let idx = 0; idx < chaptersArray.length; idx++) {
+  for (const [idx, chapter] of chaptersArray.entries()) {
     let previewVerse = "";
     let entryIdx = 0;
     while (
-      entryIdx < chaptersArray[idx].length &&
+      entryIdx < chapter.length &&
       previewVerse.length < 50
     ) {
       if (previewVerse.length > 0) previewVerse += " ";
-      previewVerse += chaptersArray[idx][entryIdx];
+      previewVerse += chapter[entryIdx];
       entryIdx++;
     }
     chapters.push(bookName + " " + (idx + 1) + "\n" + previewVerse);
