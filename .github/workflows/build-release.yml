@@ -1,0 +1,65 @@
+name: Build and Release APK
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Set up Expo CLI
+      run: npm install -g @expo/cli
+      
+    - name: Set up EAS CLI
+      run: npm install -g eas-cli
+      
+    - name: Configure EAS
+      run: |
+        echo "EXPO_TOKEN=${{ secrets.EXPO_TOKEN }}" >> $GITHUB_ENV
+        
+    - name: Build APK
+      run: |
+        eas build --platform android --profile production --local --output ./build.apk
+      env:
+        EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+        
+    - name: Get tag name
+      id: get_tag
+      run: echo "TAG_NAME=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+      
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: ${{ steps.get_tag.outputs.TAG_NAME }}
+        name: ${{ steps.get_tag.outputs.TAG_NAME }}
+        draft: false
+        prerelease: false
+        files: ./build.apk
+        body: |
+          ## Release ${{ steps.get_tag.outputs.TAG_NAME }}
+          
+          This release contains the APK file for Recitativos CCB app.
+          
+          ### Installation
+          Download the APK file and install it on your Android device.
+          
+          ### Changes
+          - Built from tag: ${{ steps.get_tag.outputs.TAG_NAME }}
+          - Commit: ${{ github.sha }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
