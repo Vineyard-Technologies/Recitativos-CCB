@@ -42,17 +42,13 @@ jobs:
         # Decode the keystore from GitHub secrets
         echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > android/recitativos-release.keystore
         
-        # Create credentials.json file for EAS using echo commands
-        echo '{' > credentials.json
-        echo '  "android": {' >> credentials.json
-        echo '    "keystore": {' >> credentials.json
-        echo '      "keystorePath": "android/recitativos-release.keystore",' >> credentials.json
-        echo '      "keystorePassword": "${{ secrets.KEYSTORE_PASSWORD }}",' >> credentials.json
-        echo '      "keyAlias": "${{ secrets.KEY_ALIAS }}",' >> credentials.json
-        echo '      "keyPassword": "${{ secrets.KEY_PASSWORD }}"' >> credentials.json
-        echo '    }' >> credentials.json
-        echo '  }' >> credentials.json
-        echo '}' >> credentials.json
+        # Create credentials.json file with proper variable substitution
+        KEYSTORE_PASSWORD="${{ secrets.KEYSTORE_PASSWORD }}"
+        KEY_PASSWORD="${{ secrets.KEY_PASSWORD }}"
+        KEY_ALIAS="${{ secrets.KEY_ALIAS }}"
+        
+        # Create credentials.json using printf for better control
+        printf '{\n  "android": {\n    "keystore": {\n      "keystorePath": "android/recitativos-release.keystore",\n      "keystorePassword": "%s",\n      "keyAlias": "%s",\n      "keyPassword": "%s"\n    }\n  }\n}' "$KEYSTORE_PASSWORD" "$KEY_ALIAS" "$KEY_PASSWORD" > credentials.json
         
         # Verify files were created
         if [ -f "android/recitativos-release.keystore" ]; then
@@ -65,8 +61,8 @@ jobs:
         
         if [ -f "credentials.json" ]; then
           echo "✅ Credentials file created successfully"
-          echo "Credentials file content:"
-          cat credentials.json
+          echo "Credentials file structure (passwords hidden):"
+          cat credentials.json | sed 's/"Password": "[^"]*"/"Password": "***"/g'
           echo ""
           echo "File permissions:"
           ls -la credentials.json
@@ -88,9 +84,6 @@ jobs:
         echo "Building APK with local credentials..."
         echo "Current directory contents:"
         ls -la
-        echo ""
-        echo "Verifying EAS configuration..."
-        eas build:configure --platform android --non-interactive || true
         echo ""
         echo "Starting APK build..."
         eas build --platform android --profile production --local --output ./build.apk --non-interactive
