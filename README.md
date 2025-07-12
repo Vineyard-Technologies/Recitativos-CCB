@@ -1,8 +1,4 @@
-![Recitativos CCB Logo](src/images/icon.png)
-
-A React Native app for memorizing Portuguese scripture verses using mnemonic techniques. / Um aplicativo React Native para memorizar versículos bíblicos em português usando técnicas mnemônicas.
-
-## 📖 Overview | Visão Geral
+![Recitativos CCB Logo](src/images/readmelogo.png)
 
 *Recitativos CCB* is a mobile application designed to help users memorize Portuguese Bible verses through progressive learning techniques. / *Recitativos CCB* é um aplicativo móvel projetado para ajudar os usuários a memorizar versículos bíblicos em português através de técnicas de aprendizado progressivo.
 
@@ -10,34 +6,32 @@ The app features an intuitive interface for managing scripture passages and prov
 
 ## ✨ Features | Recursos
 
-- **Scripture Management**: Add, organize, and manage Bible verses for memorization / **Gerenciamento de Escrituras**: Adicione, organize e gerencie versículos bíblicos para memorização
-- **Progressive Learning Levels**: Multiple difficulty levels to gradually increase memorization challenge / **Níveis de Aprendizado Progressivo**: Múltiplos níveis de dificuldade para aumentar gradualmente o desafio de memorização
-- **Mnemonic Techniques**: Interactive features to help with verse memorization / **Técnicas Mnemônicas**: Recursos interativos para ajudar na memorização de versículos
-- **Offline Storage**: Verses are stored locally using AsyncStorage / **Armazenamento Offline**: Versículos são armazenados localmente usando AsyncStorage
-- **Customizable Interface**: Modern, clean UI with custom typography / **Interface Personalizável**: Interface moderna e limpa com tipografia customizada
-- **Multi-Platform**: Runs on iOS and Android / **Multiplataforma**: Executa em iOS e Android
+- 📖 **Scripture Management**: Add, organize, and manage Bible verses for memorization / **Gerenciamento de Escrituras**: Adicione, organize e gerencie versículos bíblicos para memorização
+- 📈 **Progressive Learning Levels**: Multiple difficulty levels to gradually increase memorization challenge / **Níveis de Aprendizado Progressivo**: Múltiplos níveis de dificuldade para aumentar gradualmente o desafio de memorização
+- 🧠 **Mnemonic Techniques**: Interactive features to help with verse memorization / **Técnicas Mnemônicas**: Recursos interativos para ajudar na memorização de versículos
+- 💾 **Offline Storage**: Verses are stored locally using AsyncStorage / **Armazenamento Offline**: Versículos são armazenados localmente usando AsyncStorage
+- 🎨 **Customizable Interface**: Modern, clean UI with custom typography / **Interface Personalizável**: Interface moderna e limpa com tipografia customizada
+- 📱 **Multi-Platform**: Runs on iOS and Android / **Multiplataforma**: Executa em iOS e Android
 
 ## 🛠️ Tech Stack | Pilha Tecnológica
 
-- **Framework**: React Native with Expo / React Native com Expo
-- **Language**: TypeScript / Linguagem: TypeScript
-- **Navigation**: React Navigation / Navegação: React Navigation
-- **State Management**: React Context API / Gerenciamento de Estado: React Context API
-- **Styling**: Styled Components / Estilização: Styled Components
-- **Icons**: Phosphor React Native / Ícones: Phosphor React Native
-- **Storage**: AsyncStorage / Armazenamento: AsyncStorage
-- **Typography**: Cormorant Garamond font family / Tipografia: Família de fontes Cormorant Garamond
+- ⚛️ **Framework**: React Native with Expo / React Native com Expo
+- 📝 **Language**: TypeScript / Linguagem: TypeScript
+- 🧭 **Navigation**: React Navigation / Navegação: React Navigation
+- 🔄 **State Management**: React Context API / Gerenciamento de Estado: React Context API
+- 💅 **Styling**: Styled Components / Estilização: Styled Components
+- 🎯 **Icons**: Phosphor React Native / Ícones: Phosphor React Native
+- 📦 **Storage**: AsyncStorage / Armazenamento: AsyncStorage
+- ✍️ **Typography**: Cormorant Garamond font family / Tipografia: Família de fontes Cormorant Garamond
 
 
 ## 🚀 Getting Started | Começando
 
 ### 📋 Prerequisites | Pré-requisitos
 
-- Node.js (v14+) / Node.js (v14+)
-- npm or yarn / npm ou yarn
-- Expo CLI / Expo CLI
-- Android Studio (for Android development) / Android Studio (para desenvolvimento Android)
-
+- [Node.js (v14+)](https://nodejs.org/)
+- [npm](https://www.npmjs.com/)
+- [Expo CLI](https://docs.expo.dev/get-started/installation/)
 
 ### 💾 Installation | Instalação
 
@@ -59,8 +53,8 @@ The app features an intuitive interface for managing scripture passages and prov
 
 ### ▶️ Running the App | Executando o Aplicativo
 
-- **iOS**: `npm run ios` / **iOS**: `npm run ios`
-- **Android**: `npm run android` / **Android**: `npm run android`
+- **iOS**: `npm run ios`
+- **Android**: `npm run android`
 
 ## 📁 Project Structure | Estrutura do Projeto
 
@@ -131,21 +125,10 @@ The app uses various configuration files: / O aplicativo usa vários arquivos de
 4. Push to the branch (`git push origin feature/amazing-feature`) / Faça push para a branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request / Abra um Pull Request
 
-## 💡 Development Notes | Notas de Desenvolvimento
-
-- The app uses AsyncStorage for local data persistence / O aplicativo usa AsyncStorage para persistência de dados locais
-- Bible text data is stored in JSON format in the assets folder / Os dados de texto bíblico são armazenados em formato JSON na pasta assets
-- The app supports automatic UI style adaptation / O aplicativo suporta adaptação automática de estilo da interface
-- Custom fonts are included for enhanced typography / Fontes personalizadas estão incluídas para tipografia aprimorada
-
 ## 📄 License | Licença
 
-This project is licensed under the terms specified in the LICENSE file. / Este projeto está licenciado sob os termos especificados no arquivo LICENSE.
+This project is licensed under the [AGPL 3.0 License](https://www.gnu.org/licenses/agpl-3.0.html.en) - see the [LICENSE](LICENSE) file for details. / Este projeto está licenciado sob a [Licença AGPL 3.0](https://www.gnu.org/licenses/agpl-3.0.pt-br.html) - veja o arquivo [LICENSE](LICENSE) para detalhes.
 
 ## 🆘 Support | Suporte
 
-For support, please open an issue in the GitHub repository or contact the development team. / Para suporte, por favor abra uma issue no repositório GitHub ou entre em contato com a equipe de desenvolvimento.
-
----
-
-Built with ❤️ using React Native and Expo / Construído com ❤️ usando React Native e Expo
+For support, please open an issue in the GitHub repository / Para suporte, por favor abra uma issue no repositório GitHub.
