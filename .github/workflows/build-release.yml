@@ -28,11 +28,6 @@ jobs:
     - name: Set up EAS CLI
       run: npm install -g eas-cli
       
-    - name: Login to Expo
-      run: eas login --non-interactive
-      env:
-        EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-        
     - name: Configure EAS Project
       run: |
         # Check if project exists, if not create it
