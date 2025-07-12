@@ -30,13 +30,9 @@ jobs:
       
     - name: Configure EAS Project
       run: |
-        # Check if project exists, if not create it
-        if ! eas project:info --non-interactive; then
-          echo "Creating new EAS project..."
-          eas project:init --non-interactive
-        else
-          echo "EAS project already exists"
-        fi
+        # Initialize EAS project (create if doesn't exist)
+        echo "Initializing EAS project..."
+        eas project:init --non-interactive --force
       env:
         EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
         
