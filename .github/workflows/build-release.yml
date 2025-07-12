@@ -39,8 +39,40 @@ jobs:
         # Create android directory
         mkdir -p android
         
-        # Decode the keystore from GitHub secrets
-        echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > android/recitativos-release.keystore
+        # Decode the keystore from GitHub secrets with better error handling
+        echo "Decoding keystore from base64..."
+        echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | tr -d '\n\r' | base64 -d > android/recitativos-release.keystore
+        
+        # Verify keystore file integrity
+        if [ -f "android/recitativos-release.keystore" ]; then
+          echo "✅ Keystore file created"
+          echo "Keystore file size: $(wc -c < android/recitativos-release.keystore) bytes"
+          
+          # Test keystore with keytool
+          echo "Testing keystore integrity..."
+          if keytool -list -keystore android/recitativos-release.keystore -storepass "${{ secrets.KEYSTORE_PASSWORD }}" -v > /dev/null 2>&1; then
+            echo "✅ Keystore is valid and readable"
+          else
+            echo "❌ Keystore test failed - the keystore may be corrupted"
+            echo "This could be due to:"
+            echo "1. Incorrect base64 encoding of the keystore"
+            echo "2. Line breaks in the base64 string"
+            echo "3. Corrupted keystore file"
+            echo ""
+            echo "Keystore file details:"
+            ls -la android/recitativos-release.keystore
+            file android/recitativos-release.keystore
+            echo ""
+            echo "First 100 bytes of base64 (for debugging):"
+            echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | head -c 100
+            echo ""
+            echo "Please regenerate the keystore using the 'Generate Android Keystore' workflow"
+            exit 1
+          fi
+        else
+          echo "❌ Failed to create keystore file"
+          exit 1
+        fi
         
         # Create credentials.json file with proper variable substitution
         KEYSTORE_PASSWORD="${{ secrets.KEYSTORE_PASSWORD }}"
@@ -50,22 +82,10 @@ jobs:
         # Create credentials.json using printf for better control
         printf '{\n  "android": {\n    "keystore": {\n      "keystorePath": "android/recitativos-release.keystore",\n      "keystorePassword": "%s",\n      "keyAlias": "%s",\n      "keyPassword": "%s"\n    }\n  }\n}' "$KEYSTORE_PASSWORD" "$KEY_ALIAS" "$KEY_PASSWORD" > credentials.json
         
-        # Verify files were created
-        if [ -f "android/recitativos-release.keystore" ]; then
-          echo "✅ Keystore decoded successfully"
-          ls -la android/
-        else
-          echo "❌ Failed to decode keystore"
-          exit 1
-        fi
-        
         if [ -f "credentials.json" ]; then
           echo "✅ Credentials file created successfully"
           echo "Credentials file structure (passwords hidden):"
           cat credentials.json | sed 's/"Password": "[^"]*"/"Password": "***"/g'
-          echo ""
-          echo "File permissions:"
-          ls -la credentials.json
         else
           echo "❌ Failed to create credentials file"
           exit 1
