@@ -28,6 +28,29 @@ jobs:
     - name: Set up EAS CLI
       run: npm install -g eas-cli
       
+    - name: Set up Java
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+        
+    - name: Setup Android keystore
+      run: |
+        # Create android directory
+        mkdir -p android
+        
+        # Decode the keystore from GitHub secrets
+        echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > android/recitativos-release.keystore
+        
+        # Verify keystore was created
+        if [ -f "android/recitativos-release.keystore" ]; then
+          echo "✅ Keystore decoded successfully"
+          ls -la android/
+        else
+          echo "❌ Failed to decode keystore"
+          exit 1
+        fi
+        
     - name: Configure EAS Project
       run: |
         # Initialize EAS project (create if doesn't exist)
@@ -38,6 +61,13 @@ jobs:
         
     - name: Build APK
       run: |
+        # Use the permanent keystore for signing
+        export EXPO_ANDROID_KEYSTORE_PATH=./android/recitativos-release.keystore
+        export EXPO_ANDROID_KEYSTORE_PASSWORD="${{ secrets.KEYSTORE_PASSWORD }}"
+        export EXPO_ANDROID_KEY_PASSWORD="${{ secrets.KEY_PASSWORD }}"
+        export EXPO_ANDROID_KEY_ALIAS="${{ secrets.KEY_ALIAS }}"
+        
+        echo "Building APK with permanent keystore..."
         eas build --platform android --profile production --local --output ./build.apk --non-interactive
       env:
         EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
