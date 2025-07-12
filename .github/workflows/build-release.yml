@@ -66,7 +66,10 @@ jobs:
         if [ -f "credentials.json" ]; then
           echo "✅ Credentials file created successfully"
           echo "Credentials file content:"
-          cat credentials.json | head -20
+          cat credentials.json
+          echo ""
+          echo "File permissions:"
+          ls -la credentials.json
         else
           echo "❌ Failed to create credentials file"
           exit 1
@@ -82,7 +85,14 @@ jobs:
         
     - name: Build APK
       run: |
-        echo "Building APK with credentials file..."
+        echo "Building APK with local credentials..."
+        echo "Current directory contents:"
+        ls -la
+        echo ""
+        echo "Verifying EAS configuration..."
+        eas build:configure --platform android --non-interactive || true
+        echo ""
+        echo "Starting APK build..."
         eas build --platform android --profile production --local --output ./build.apk --non-interactive
       env:
         EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
