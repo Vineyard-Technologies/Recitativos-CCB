@@ -28,13 +28,26 @@ jobs:
     - name: Set up EAS CLI
       run: npm install -g eas-cli
       
-    - name: Configure EAS
+    - name: Login to Expo
+      run: eas login --non-interactive
+      env:
+        EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+        
+    - name: Configure EAS Project
       run: |
-        echo "EXPO_TOKEN=${{ secrets.EXPO_TOKEN }}" >> $GITHUB_ENV
+        # Check if project exists, if not create it
+        if ! eas project:info --non-interactive; then
+          echo "Creating new EAS project..."
+          eas project:init --non-interactive
+        else
+          echo "EAS project already exists"
+        fi
+      env:
+        EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
         
     - name: Build APK
       run: |
-        eas build --platform android --profile production --local --output ./build.apk
+        eas build --platform android --profile production --local --output ./build.apk --non-interactive
       env:
         EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
         
