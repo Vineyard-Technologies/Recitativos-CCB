@@ -17,7 +17,7 @@
     "production": {
       "android": {
         "buildType": "apk",
-        "credentialsSource": "local"
+        "credentialsSource": "env"
       }
     }
   },
