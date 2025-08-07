@@ -1,4 +1,4 @@
-![Recitativos CCB Logo](src/images/readmelogo.webp)
+![Recitativos CCB Logo](src/images/RecitativosCCBGitHubLogo.png)
 
 *Recitativos CCB* is a mobile application designed to help users memorize Portuguese Bible verses through progressive learning techniques. / *Recitativos CCB* é um aplicativo móvel projetado para ajudar os usuários a memorizar versículos bíblicos em português através de técnicas de aprendizado progressivo.
 
