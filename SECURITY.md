@@ -12,7 +12,7 @@ We are committed to ensuring the security of our application. Below is the list 
 
 We take all security bugs in Recitativos CCB seriously. Thank you for improving the security of our software. We appreciate your efforts and responsible disclosure and will make every effort to acknowledge your contributions.
 
-To report a security vulnerability, please email us at contact@vineyardtechnologies.com.
+To report a security vulnerability, please email us at contact@VineyardTechnologies.org.
 
 You should receive a response within 48 hours. If for some reason you do not, please follow up via email to ensure we received your original message.
 

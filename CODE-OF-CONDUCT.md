@@ -26,4 +26,4 @@ This Code of Conduct applies both within project spaces and in public spaces whe
 
 ## Contact
 
-Contact us at contact@vineyardtechnologies.com.
+Contact us at contact@VineyardTechnologies.org.

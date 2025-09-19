@@ -10,4 +10,4 @@ If you have a question about how to use Recitativos CCB, or if you're running in
 
 ### Commercial Support
 
-For commercial support, please contact Vineyard Technologies at contact@vineyardtechnologies.com. We offer a variety of support plans to meet your needs.
+For commercial support, please contact Vineyard Technologies at contact@VineyardTechnologies.org. We offer a variety of support plans to meet your needs.
