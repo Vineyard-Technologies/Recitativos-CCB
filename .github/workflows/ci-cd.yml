@@ -78,6 +78,9 @@ jobs:
         id: get_version
         run: echo "VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
 
+      - name: Initialize EAS project
+        run: eas init --id ${{ secrets.EXPO_PROJECT_ID }} --non-interactive
+
       - name: Build
         run: eas build --platform android --profile preview --non-interactive --local --output=./com.laserwolve.recitativos_${{ env.VERSION }}.apk
 
