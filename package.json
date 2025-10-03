@@ -1,6 +1,6 @@
 {
   "name": "recitativos",
-  "version": "1.0.0",
+  "version": "0.2.8",
   "main": "index.ts",
   "scripts": {
     "start": "expo start",
@@ -9,21 +9,20 @@
     "web": "expo start --web"
   },
   "dependencies": {
-    "@react-native-async-storage/async-storage": "^2.2.0",
+    "@react-native-async-storage/async-storage": "2.1.2",
     "@react-navigation/native": "^7.1.9",
     "@react-navigation/stack": "^7.3.2",
-    "expo": "^53.0.9",
+    "expo": "53.0.22",
     "expo-status-bar": "~2.2.3",
     "phosphor-react-native": "^2.3.1",
     "react": "19.0.0",
     "react-dom": "19.0.0",
-    "react-native": "0.79.2",
-    "react-native-gesture-handler": "^2.25.0",
+    "react-native": "0.79.5",
+    "react-native-gesture-handler": "~2.24.0",
     "react-native-reanimated": "^3.17.5",
     "react-native-safe-area-context": "^5.4.0",
-    "react-native-screens": "^4.10.0",
+    "react-native-screens": "~4.11.1",
     "react-native-svg": "15.11.2",
-    "react-native-svg-transformer": "^1.5.0",
     "styled-components": "^6.1.17"
   },
   "devDependencies": {
