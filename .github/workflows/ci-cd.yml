@@ -4,6 +4,12 @@ on:
   push:
     branches:
       - test
+  workflow_dispatch:
+    inputs:
+      build_reason:
+        description: 'Reason for manual build'
+        required: false
+        default: 'Manual build'
 
 jobs:
   CI:
